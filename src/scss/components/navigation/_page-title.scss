@@ -1,0 +1,15 @@
+.page-title{
+
+    background-color: #444444;
+    color: white;
+    display: flex;
+    align-items: center;
+
+    padding: 2.5rem 2rem;
+
+    &__icon{
+        fill: white;
+        margin: 0 1rem;
+    }
+
+}

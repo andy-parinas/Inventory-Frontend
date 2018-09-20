@@ -1,0 +1,51 @@
+.allert {
+    // background-color: red;
+    padding: 5px;
+    border-radius: 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    transition: all 0.2s;
+
+    &--error {
+        background-color: #fba4a4;
+        color: #780000;
+    }
+
+    &--success {
+        background-color: #a0d87e;
+        color: #0d3e0d
+    }
+
+    &--info {
+        background-color: #bed5ff;
+        color: #000075;
+    }
+
+    &__button {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+
+        &:link,
+        &:visited{
+            text-decoration: none;
+            padding: 1.3rem 1rem;
+        }
+
+        &:hover{
+            cursor: pointer;
+            color: white;
+        }
+
+        &.active{
+            // background-color: #c0392b;
+            color: #000075;
+        }
+    }
+
+    &--hidden {
+        visibility: hidden;
+    }
+}

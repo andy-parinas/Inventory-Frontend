@@ -1,0 +1,30 @@
+.menu {
+    list-style: none;
+
+    &__item{
+        display: inline-block;
+        font-size: 1.3rem;
+        margin: 0 1rem;
+        letter-spacing: 1.5px;
+    }
+
+    &__link{
+        color: #ffc3ae;
+        
+        &:link,
+        &:visited{
+            text-decoration: none;
+            padding: 1.3rem 1rem;
+        }
+
+        &:hover{
+            // background-color: #c0392b;
+            color: white;
+        }
+
+        &.active{
+            // background-color: #c0392b;
+            color: white;
+        }
+    }
+}

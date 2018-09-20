@@ -1,0 +1,60 @@
+.app-table {
+        // margin: 2rem auto;
+        table-layout:fixed;
+        width:100%;
+        border-collapse: collapse;
+
+
+        &__row{
+            &:hover{
+                background-color: #ff66243b;
+            }
+
+            &:nth-child(even){
+                background-color: #f2f2f2;
+                &:hover{
+                background-color: #ff66243b;
+                }
+            }
+        }
+
+        &__data{
+            padding: 5px 1rem;
+            font-size: 1.2rem;
+            font-family: "Lato", sans-serif;
+            border: 1px solid #333333;
+        }
+
+        &__header{
+            border: 1px solid #000000;
+            padding: 8px;
+            padding: 5px 1rem;
+
+            text-align: left;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+            font-family: "Lato", sans-serif;
+            background-color:#c6c6c6;
+        }
+
+        &__actions{
+            text-align: center;
+        }
+
+        &__link{
+            margin: 0 5px;
+            color: blue;
+            font-size: 1.2rem;
+            &:link,
+            &:visited {
+                
+                text-decoration: none;
+            }
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+}
+  

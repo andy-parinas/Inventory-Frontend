@@ -1,0 +1,1 @@
+export const InventoryBackendAPI = 'http://localhost:5000/api';

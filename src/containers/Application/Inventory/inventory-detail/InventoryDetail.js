@@ -5,7 +5,7 @@ import TransactionContainer from '../inventory-transaction/TransactionContainer'
 import InventoryTitleControl from '../InventoryTitleControl';
 import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
-import AllertMessage from '../../../../components/AllertMessageComponent/AllertMessage';
+import AlertMessage from '../../../../components/AlertMessageComponent/AlertMessage';
 import {validateForm, convertFormToObject} from '../../../../helpers/helpers'
 import withMessages from '../../../../hoc/withMessages';
 
@@ -244,9 +244,9 @@ class InventoryDetail extends Component {
                 <div className='app-row' >                
                     <div className='app-col app-col--80'>
 
-                        <AllertMessage messages={this.state.message.details} 
+                        {/* <AlertMessage messages={this.state.message.details} 
                                     type={this.state.message.type} 
-                                    onDismissed={this.dismissMessageHandler} />
+                                    onDismissed={this.dismissMessageHandler} /> */}
 
                         <InventoryTitleControl  title='Inventory Detail' 
                                 buttons={titleButtons} showButton={showButton} />

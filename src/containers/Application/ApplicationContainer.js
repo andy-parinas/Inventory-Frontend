@@ -6,6 +6,7 @@ import DashboardContainer from './Dashboard/DashboardContainer';
 import ProductContainer from './Product/ProductContainer';
 import InventoryContainer from './Inventory/InventoryContainer';
 import LinkMenu from '../../components/UI/LinkMenu';
+import withMessages from '../../hoc/withMessages';
 
 const ApplicationContainer = () => {
 
@@ -31,4 +32,4 @@ const ApplicationContainer = () => {
 
 }
 
-export default ApplicationContainer;
+export default withMessages(ApplicationContainer);

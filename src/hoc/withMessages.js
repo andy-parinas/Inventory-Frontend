@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import AllertMessage from '../components/AllertMessageComponent/AllertMessage';
+import AlertMessage from '../components/AlertMessageComponent/AlertMessage';
 
 
 export default (ChildComponent) => {
@@ -11,7 +11,7 @@ export default (ChildComponent) => {
 
             return(
                 <Fragment>
-                    <AllertMessage type='info' messages={['Test HOC Message']} />
+                    <AlertMessage type='info' messages={['Test HOC Message']} />
                     <ChildComponent {...this.props} />
                 </Fragment>
             )

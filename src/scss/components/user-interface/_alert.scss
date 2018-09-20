@@ -1,6 +1,6 @@
-.allert {
+.alert {
     // background-color: red;
-    padding: 5px;
+    padding: 5px 5rem;
     border-radius: 5px;
 
     display: flex;
@@ -48,4 +48,9 @@
     &--hidden {
         visibility: hidden;
     }
+}
+
+
+.alert-container {
+    // padding: 0 5rem;
 }

@@ -3,17 +3,16 @@ import React  from 'react';
 
 const  AlertMessage = props => {
    
-    const messages = props.messages.map((message, i) => {
-        return <h3 key={i} className='alert__message' > {message} </h3>
+    let messages = '';
+    props.messages.map((message, i) => {
+        messages += ( message + ' | ' );
     })
 
     return (
-        <div className='alert-container'>
             <div className={`alert alert--${props.type}`} >
-                <div> { messages } </div>
-                <a className='alert__button' onClick={props.onDismissed} > X </a>
+                <div> <h3 className='alert__message' > {messages} </h3></div>
+                <a className='alert__button' onClick={props.onDismissed} > [ Close Alert ] </a>
             </div>
-        </div>
        
     )
 }

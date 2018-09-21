@@ -147,49 +147,52 @@ class InventoryForm extends Component {
     }
 
     componentDidMount() {
-    
-        this.setState({
-                ...this.state,
-                form: {
-                    ...this.state.form,
-                    product: {
-                        ...this.state.form.product,
-                        value: this.props.data.product,
-                        isValid: true
-                    },
-                    quantity: {
-                        ...this.state.form.quantity,
-                        value: this.props.data.quantity,
-                        isValid: true
-                    },
-                    sku: {
-                        ...this.state.form.sku,
-                        value: this.props.data.sku,
-                        isValid: true
-                    },
-                    thresholdCritical: {
-                        ...this.state.form.thresholdCritical,
-                        value: this.props.data.thresholdCritical,
-                        isValid: true
-                    },
-                    thresholdWarning: {
-                        ...this.state.form.thresholdWarning,
-                        value: this.props.data.thresholdWarning,
-                        isValid: true
-                    },
-                    status: {
-                        ...this.state.form.status,
-                        value: this.props.data.status,
-                        isValid: true
-                    },
-                    location: {
-                        ...this.state.form.location,
-                        value: this.props.data.location,
-                        isValid: true
-                    }   
-                }
-            })
 
+        console.log(this.props);
+    
+        if(this.props.data){
+            this.setState({
+                    ...this.state,
+                    form: {
+                        ...this.state.form,
+                        product: {
+                            ...this.state.form.product,
+                            value: this.props.data.product,
+                            isValid: this.props.action === 'new'? false : true
+                        },
+                        quantity: {
+                            ...this.state.form.quantity,
+                            value: this.props.data.quantity,
+                            isValid: true
+                        },
+                        sku: {
+                            ...this.state.form.sku,
+                            value: this.props.data.sku,
+                            isValid: this.props.action === 'new'? false : true
+                        },
+                        thresholdCritical: {
+                            ...this.state.form.thresholdCritical,
+                            value: this.props.data.thresholdCritical,
+                            isValid: this.props.action === 'new'? false : true
+                        },
+                        thresholdWarning: {
+                            ...this.state.form.thresholdWarning,
+                            value: this.props.data.thresholdWarning,
+                            isValid: this.props.action === 'new'? false : true
+                        },
+                        status: {
+                            ...this.state.form.status,
+                            value: this.props.data.status,
+                            isValid: true
+                        },
+                        location: {
+                            ...this.state.form.location,
+                            value: this.props.data.location,
+                            isValid: this.props.action === 'new'? false : true
+                        }   
+                    }
+                })
+        }
        
     }
 

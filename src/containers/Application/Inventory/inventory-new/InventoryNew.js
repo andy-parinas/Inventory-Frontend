@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 import InventoryForm from '../inventory-form/InventoryForm';
 import {InventoryBackendAPI} from '../../../../AppSettings';
+import {showMessages} from '../../../../store/actions/index';
+import {validateForm} from '../../../../helpers/helpers';
 
 class InventoryNew extends Component {
 
@@ -11,25 +14,45 @@ class InventoryNew extends Component {
         options: [
             'Option1',
             'Option2'
-        ]
+        ],
+        inventory: {
+            product: '',
+            quantity: 0,
+            sku: '',
+            status: 'No Stock',
+            thresholdWarning: 0,
+            thresholdCritical: 0,
+            location: ''
+        }
+        
     }
 
 
     saveInventoryHandler = (inventoryForm) => {
 
-        const inventory = {
-            product: '',
-            quantity: 0,
-            sku: '',
-            status: '',
-            thresholdWarning: 0,
-            thresholdCritical: 0,
-            location: ''
+        if(validateForm(inventoryForm)){
+
+                
+            const inventory = {
+                product: '',
+                quantity: 0,
+                sku: '',
+                status: '',
+                thresholdWarning: 0,
+                thresholdCritical: 0,
+                location: ''
+            }
+
+            this.convertFormToObject(inventoryForm, inventory);
+
+            this.postInventoryToBackend(inventory);
+
+
+        }else {
+            this.props.onShowMessage('error', ['Forms are not valid for submission']);
         }
 
-        this.convertFormToObject(inventoryForm, inventory);
 
-        this.postInventoryToBackend(inventory);
         
     }
 
@@ -50,13 +73,23 @@ class InventoryNew extends Component {
             if(response.status === 201){
                 const createdInventory = response.data;
 
-                this.props.history.push(`/inventories/${createdInventory.id}`, {message: {type: 'success', details: 'Inventory successfully created'}});
+                this.props.history.push(`/inventories/${createdInventory.id}`);
 
-                console.log('Success');
+                this.props.onShowMessage('success', ['Successfully Created Inventory']);
             }
 
         }catch(error) {
-            console.log(error);
+
+            if(error.response.data && error.response.status === 400){
+
+                let messages = [];
+                for(let err in error.response.data){
+                    messages.push(error.response.data[err][0]);
+                }
+                
+                this.props.onShowMessage('error', messages);
+
+            }
         }
     }
 
@@ -77,4 +110,13 @@ class InventoryNew extends Component {
 
 }
 
-export default InventoryNew;
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(InventoryNew);
+// export default InventoryNew;

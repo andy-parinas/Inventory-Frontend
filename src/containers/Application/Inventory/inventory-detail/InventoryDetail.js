@@ -1,5 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
+
 import InventoryForm from '../inventory-form/InventoryForm';
 import TransactionContainer from '../inventory-transaction/TransactionContainer';
 import InventoryTitleControl from '../InventoryTitleControl';
@@ -7,7 +9,7 @@ import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
 import AlertMessage from '../../../../components/AlertMessageComponent/AlertMessage';
 import {validateForm, convertFormToObject} from '../../../../helpers/helpers'
-import withMessages from '../../../../hoc/withMessages';
+import {showMessages} from '../../../../store/actions/index';
 
 class InventoryDetail extends Component {
 
@@ -81,6 +83,7 @@ class InventoryDetail extends Component {
             
            if(response.status === 200){
                callback();
+               this.props.onShowMessage('success', ['Successfully Deleted Inventory'])
            }
             
         }catch(error) {
@@ -125,6 +128,8 @@ class InventoryDetail extends Component {
         this.deleteData(() => {
             this.props.history.push('/inventories');
         });
+
+
     }
 
     /*
@@ -174,13 +179,7 @@ class InventoryDetail extends Component {
 
         }else {
             
-            this.setState({
-                ...this.state,
-                message: {
-                    type: 'error',
-                    details: ['Form is not Valid for Submission']
-                }
-            })
+            this.props.onShowMessage('error', ['Form not valid for submission']);
         }
     }
 
@@ -199,8 +198,11 @@ class InventoryDetail extends Component {
                     action: 'detail',
                     updateContent: true
             })
+
+            this.props.onShowMessage('success', ['Successfully Updated Inventory']);
+
         }catch(error) {
-            console.log(error.response);
+
 
             if(error.response.data && error.response.status === 400){
 
@@ -208,16 +210,8 @@ class InventoryDetail extends Component {
                 for(let err in error.response.data){
                     messages.push(error.response.data[err][0]);
                 }
-
-                this.setState({
-                    ...this.state,
-                    message: {
-                        type: 'error',
-                        details: [
-                            ...messages
-                        ]
-                    }
-                })
+                
+                this.props.onShowMessage('error', messages);
 
             }
 
@@ -243,10 +237,6 @@ class InventoryDetail extends Component {
             <Fragment>
                 <div className='app-row' >                
                     <div className='app-col app-col--80'>
-
-                        {/* <AlertMessage messages={this.state.message.details} 
-                                    type={this.state.message.type} 
-                                    onDismissed={this.dismissMessageHandler} /> */}
 
                         <InventoryTitleControl  title='Inventory Detail' 
                                 buttons={titleButtons} showButton={showButton} />
@@ -275,4 +265,11 @@ class InventoryDetail extends Component {
 
 }
 
-export default withMessages(InventoryDetail);
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(InventoryDetail);

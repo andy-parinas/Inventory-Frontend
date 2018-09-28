@@ -9,7 +9,7 @@ import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
 import AlertMessage from '../../../../components/AlertMessageComponent/AlertMessage';
 import {validateForm, convertFormToObject} from '../../../../helpers/helpers'
-import {showMessages} from '../../../../store/actions/index';
+import {showMessages, loadInventory, updateInventory, deleteInventory} from '../../../../store/actions/index';
 
 class InventoryDetail extends Component {
 
@@ -24,58 +24,12 @@ class InventoryDetail extends Component {
     }
 
     componentDidMount() {
-       this.checkActionParams();
-       
-       this.loadData();
-             
-        if(this.props.location.state){
-            if(this.props.location.state.message) {
-                const messages = [];
-                messages.push(this.props.location.state.message.details)
-                this.setState({
-                    ...this.state,
-                    message: {
-                        type: this.props.location.state.message.type,
-                        details: [...messages]
-                    }
-                })
-            }
 
-            if(this.props.location.state.action){
-                if(this.props.location.state.action == 'edit'){
-                    this.setState({
-                        ...this.state,
-                        action: 'edit'
-                    })
-                }else if(this.props.location.state.action == 'delete'){
-                    this.setState({
-                        ...this.state,
-                        action: 'delete'
-                    })
-                }else {
-                    this.setState({
-                        ...this.state,
-                        action: 'show'
-                    })
-                }
-            }
-        }
+        const inventoryId = this.props.match.params.id;
+        this.props.onLoadInventory(inventoryId);
 
     }
 
-
-    async loadData() {
-        try {
-            const response = await axios.get(`${InventoryBackendAPI}/inventories/${this.props.match.params.id}`)
-            
-            this.setState({
-                    ...this.state,
-                    inventory: response.data
-            })
-        }catch(error) {
-            console.log(error);
-        }
-    }
 
     async deleteData(callback) {
         try {
@@ -125,57 +79,29 @@ class InventoryDetail extends Component {
     }
 
     deleteConfirmedHandler = () => {
-        this.deleteData(() => {
+        // this.deleteData(() => {
+        //     this.props.history.push('/inventories');
+        // });
+        const inventoryId = this.props.match.params.id;
+
+        this.props.onDeleteInventory(inventoryId, () => {
             this.props.history.push('/inventories');
-        });
-
-
-    }
-
-    /*
-    *  End of Form Buttons Handler
-    */
-
-
-    checkActionParams () {
-
-        if(this.props.match.params.action === 'edit'){
-            this.setState({
-                ...this.state,
-                action: 'edit'
-            })
-        }else if(this.props.match.params.action === 'delete'){
-            this.setState({
-                ...this.state,
-                action: 'delete'
-            })
-        }
-    }
-
-    dismissMessageHandler = () => {
-        this.setState({
-            ...this.state,
-            message: {
-                type: 'hidden',
-                details: []
-            }
         })
+
     }
+
 
     updateInventoryHandler = (inventoryForm) => {
         if(validateForm(inventoryForm)){
-        
-        const inventory = {
-            product: '',
-            sku: '',
-            thresholdWarning: 0,
-            thresholdCritical: 0,
-            location: ''
-        }
-
-        convertFormToObject(inventoryForm,inventory);
-
-        this.saveData(inventory);
+            
+            const inventoryId = this.props.match.params.id;
+            this.props.onUpdateInventory(inventoryId, inventoryForm, () => {
+                this.setState({
+                    ...this.state,
+                    action: 'show',
+                    updateContent: true
+                })
+            });
 
         }else {
             
@@ -183,40 +109,11 @@ class InventoryDetail extends Component {
         }
     }
 
-    async saveData(inventory){
-        try {
-            const uri = `${InventoryBackendAPI}/inventories/${this.props.match.params.id}`;
-            const response = await axios.put(uri, inventory)
-            
-            this.setState({
-                    ...this.state,
-                    inventory: response.data,
-                    message: {
-                        type: 'success',
-                        details: ['Inventory Successfuly Updated']
-                    },
-                    action: 'detail',
-                    updateContent: true
-            })
-
-            this.props.onShowMessage('success', ['Successfully Updated Inventory']);
-
-        }catch(error) {
+    /*
+    *  End of Form Buttons Handler
+    */
 
 
-            if(error.response.data && error.response.status === 400){
-
-                let messages = [];
-                for(let err in error.response.data){
-                    messages.push(error.response.data[err][0]);
-                }
-                
-                this.props.onShowMessage('error', messages);
-
-            }
-
-        }
-    }
 
 
     renderDetails = () => {
@@ -249,7 +146,7 @@ class InventoryDetail extends Component {
                             onCancelClicked={this.cancelButtonHander}
                             onDeleteClicked={this.deleteButtonHandler}
                             onDeleteConfirmed={this.deleteConfirmedHandler}
-                            data={this.state.inventory} options={[]} />
+                            data={this.props.inventory} options={[]} />
                     </div>
                 </div>
                 { transaction }
@@ -260,16 +157,24 @@ class InventoryDetail extends Component {
    
     render() {
 
-        return this.state.inventory? this.renderDetails() : <LoadingComponent /> 
+        return this.props.inventory? this.renderDetails() : <LoadingComponent /> 
     }
 
 }
 
+const mapStateToProps = state => {
+    return {
+        inventory: state.inventories.inventory
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
-        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
+        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages)),
+        onLoadInventory: (inventoryId) => dispatch(loadInventory(inventoryId)),
+        onUpdateInventory: (inventoryId, inventoryForm, callback) => dispatch(updateInventory(inventoryId, inventoryForm, callback)),
+        onDeleteInventory: (inventoryId, callback) => dispatch(deleteInventory(inventoryId, callback))
     }
 }
 
-export default connect(null, mapDispatchToProps)(InventoryDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(InventoryDetail);

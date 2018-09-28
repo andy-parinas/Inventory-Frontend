@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import axios from 'axios';
 
+import {loadInventories} from '../../../../store/actions/index';
 import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
@@ -22,13 +24,14 @@ const columns = [
 
 class InventoryList extends Component {
 
-    state = {
-        inventories: null,
-        pagination: null
-    }
+    // state = {
+    //     inventories: null,
+    //     pagination: null
+    // }
 
     componentDidMount() {
-       this.loadInventoriesdata()
+        
+       this.props.loadInventories(1)
     }
 
 
@@ -36,38 +39,12 @@ class InventoryList extends Component {
         this.props.history.push('/inventories/new');
     }
 
-    changePageHander = (pageNumber: number = 1) => {
+    pageChangedHandler = (pageNumber: number = 1) => {
 
-        console.log('Page Changed: ', pageNumber);
-
-        if(this.state.pagination){
-            if(pageNumber >= 1 && pageNumber <= this.state.pagination.totalPages){
-
-                this.loadInventoriesdata(pageNumber)
-            }
+        if(pageNumber >= 1 && pageNumber <= this.props.pagination.totalPages){
+            this.props.loadInventories(pageNumber);
         }
-    }
-
-    //Load inventories based on:
-    //page number
-    //Sort order
-    //Sort Property
-    async loadInventoriesdata(pageNumber: number = 1) {
-        try {
-            const response = await axios.get(`${InventoryBackendAPI}/inventories?pageNumber=${pageNumber}`);
-            
-            const pagination = JSON.parse(response.headers.pagination);
-            console.log(pagination);
-            this.setState({
-                ...this.state,
-                inventories: response.data,
-                pagination: pagination
-            })
-
-        } catch(error) {
-
-            console.log('Error Encountered', error);
-        }
+        
     }
 
     renderInventoriestable(){
@@ -77,17 +54,32 @@ class InventoryList extends Component {
                 <InventoryControl onClickNew={this.newInventoryHandler} />
                 <div className='app-row' >
                     <TableComponent columns={columns} 
-                        data={this.state.inventories} match={this.props.match} />
+                        data={this.props.inventories} match={this.props.match} />
                 </div>
-                <TablePageControl pagination={this.state.pagination} onPageChanged={this.changePageHander} />
+                <TablePageControl pagination={this.props.pagination} onPageChanged={this.pageChangedHandler} />
             </div>
         )
     }
 
     render(){
-        return this.state.inventories && this.state.pagination? this.renderInventoriestable() : <LoadingComponent />
+
+        return this.props.inventories && this.props.pagination? this.renderInventoriestable() : <LoadingComponent />
+
     }
 
 }
 
-export default withMessages(InventoryList);
+const mapStateToProps = state => {
+    return {
+        inventories: state.inventories.inventories,
+        pagination: state.inventories.pagination
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        loadInventories: (pageNumber) => dispatch(loadInventories(pageNumber))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InventoryList);

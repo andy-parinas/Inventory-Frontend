@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import axios from 'axios';
+// import axios from 'axios';
 
 import {loadInventories} from '../../../../store/actions/index';
 import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
-import {InventoryBackendAPI} from '../../../../AppSettings';
+// import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
-import withMessages from '../../../../hoc/withMessages';
+// import withMessages from '../../../../hoc/withMessages';     
 
 
 

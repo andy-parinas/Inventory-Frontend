@@ -1,9 +1,12 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
+
+import {loadTransactions} from '../../../../store/actions/index';
 
 import {InventoryBackendAPI} from '../../../../AppSettings';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
-import LoadingComponent from '../../../../components/UI/LoadingComponent';
+// import LoadingComponent from '../../../../components/UI/LoadingComponent';
 import InventoryTitleControl from '../InventoryTitleControl';
 
 
@@ -23,7 +26,10 @@ class TransactionList extends Component {
     }
 
     componentDidMount() {
-        this.loadData();
+        // this.loadData();
+        const inventoryId = this.props.match.params.id;
+        this.props.onLoadTransactions(inventoryId, 1);
+
     }
 
 
@@ -54,7 +60,6 @@ class TransactionList extends Component {
 
 
     render() {
-        console.log(this.props);
         const titleButtons = [
             {name: 'Add Transaction', action: this.newButtonHandler}
         ]
@@ -64,13 +69,29 @@ class TransactionList extends Component {
                                         buttons={titleButtons} 
                                         showButton={true} />
                                     <TableComponent columns={columns} 
-                                            data={this.state.transactions} 
+                                            data={this.props.transactions} 
                                             match={this.props.match} />
                                 </Fragment>
 
-        return this.state.loading? <LoadingComponent /> : transactionList;
+        // return this.state.loading? <LoadingComponent /> : transactionList;
+
+        return transactionList;
     }
 
 }
 
-export default TransactionList;
+const mapStateToProps = state => {
+    return {
+        transactions: state.transactions.transactions,
+        pagination: state.transactions.pagination
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoadTransactions: (inventoryId, pageNumber) => dispatch(loadTransactions(inventoryId, pageNumber))
+    }
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(TransactionList);

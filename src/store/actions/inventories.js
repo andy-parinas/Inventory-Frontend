@@ -1,5 +1,13 @@
 import axios from 'axios';
-import {LOAD_INVENTORIES, LOAD_INVENTORY, SHOW_MESSAGES, UPDATE_INVENTORY, DELETE_INVENTORY} from './actionTypes';
+
+import {LOAD_INVENTORIES,
+    LOAD_INVENTORY, 
+    SHOW_MESSAGES, 
+    UPDATE_INVENTORY,
+    DELETE_INVENTORY, 
+    SHOW_LOADING, 
+    HIDE_LOADING} from './actionTypes';
+
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
 
@@ -31,15 +39,19 @@ export const loadInventory = (inventoryId: number) => async dispatch => {
 
     try {
 
+        dispatch({
+            type: SHOW_LOADING
+        })
+
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}`;
         const response = await axios.get(uri);
-
-        console.log('loadInventoryAction')
-        console.log(response.data)
-
         dispatch({
             type: LOAD_INVENTORY,
             inventory: response.data
+        })
+
+        dispatch({
+            type: HIDE_LOADING
         })
 
     }catch(error) {
@@ -58,6 +70,11 @@ export const loadInventory = (inventoryId: number) => async dispatch => {
 export const updateInventory = (inventoryId: number, inventoryForm, callback) => async dispatch => {
 
     try{
+
+        dispatch({
+            type: SHOW_LOADING
+        })
+
         const inventoryUpdate = {
             product: '',
             sku: '',
@@ -84,6 +101,10 @@ export const updateInventory = (inventoryId: number, inventoryForm, callback) =>
 
         callback();
 
+        dispatch({
+            type: HIDE_LOADING
+        })
+
     }catch(error){
 
         dispatch({
@@ -102,7 +123,7 @@ export const deleteInventory = (inventoryId, callback) => async dispatch => {
 
     try{
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}`;
-        const response = await axios.delete(uri);
+        await axios.delete(uri);
 
 
         dispatch({

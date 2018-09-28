@@ -6,6 +6,7 @@ const  AlertMessage = props => {
     let messages = '';
     props.messages.map((message, i) => {
         messages += ( message + ' | ' );
+        return null;
     })
 
     return (

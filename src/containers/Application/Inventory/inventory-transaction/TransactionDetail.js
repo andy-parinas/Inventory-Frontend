@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import {connect} from 'react-redux';
+
+import {loadTransaction} from '../../../../store/actions/index';
 
 import TransactionForm from './TransactionForm';
 import InventoryTitleControl from '../InventoryTitleControl';
-import {InventoryBackendAPI} from '../../../../AppSettings';
+// import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
 
 
@@ -18,31 +21,11 @@ class TransactionDetail extends Component {
 
 
     componentDidMount() {
-        this.checkActionParams();
-
-        this.loadData();
+        const transactionId = this.props.match.params.transId;
+        this.props.onLoadTransaction(transactionId);
     }
 
-
-    async loadData() {
-        try {
-
-            const transId = this.props.match.params.transId;
-            const api = `${InventoryBackendAPI}/transactions/${transId}`;
-
-            const response = await axios.get(api);
-
-            this.setState({
-                ...this.state,
-                transaction: response.data
-            })
-
-
-        }catch(error) {
-
-        }
-    }
-
+    
 
     addTransactionHandler = () => {
 
@@ -55,16 +38,14 @@ class TransactionDetail extends Component {
     deleteButtonHandler = () => {
         this.setState({
             ...this.state,
-            delete: true,
-            edit: false
+            action: 'delete'
         })
     }
 
     editButtonHandler = () => {
         this.setState({
             ...this.state,
-            delete: false,
-            edit: true,
+            action: 'edit'
         })
     }
 
@@ -74,35 +55,9 @@ class TransactionDetail extends Component {
         }else{
             this.setState({
                 ...this.state,
-                edit: false,
-                delete: false
+                action: 'detail'
             })
         }  
-    }
-
-
-    checkActionParams = () => {
-        if(this.props.match.params.transAction === 'edit'){
-            this.setState({
-                ...this.state,
-                edit: true,
-                delete: false,
-                action: 'edit'
-            })
-        }else if(this.props.match.params.transAction === 'delete'){
-            this.setState({
-                ...this.state,
-                edit: false,
-                delete: true,
-                action: 'delete'
-            })
-        }else{
-            this.setState({
-                ...this.state,
-                edit: false,
-                delete: false
-            })
-        }
     }
 
 
@@ -127,20 +82,33 @@ class TransactionDetail extends Component {
                                         buttons={titleButtons} 
                                         showButton={showButton} />
 
-                <TransactionForm    edit={this.state.edit} 
-                                    delete={this.state.delete} 
-                                    data={this.state.transaction}
-                                    action={this.state.action} 
-                                    onCancel={() => this.props.history.goBack()}  />
+                <TransactionForm     
+                    data={this.props.transaction}
+                    action={this.state.action} 
+                    onCancel={() => this.props.history.goBack()}  />
             </div>
         )
     }
 
     render(){
-
-        return this.state.transaction? this.renderContent() : <LoadingComponent />
+        console.log(this.props);
+        return this.props.transaction? this.renderContent() : <LoadingComponent />
     }
 
 }
 
-export default TransactionDetail;
+
+const mapStateToProps = state => {
+    return {
+        transaction: state.transactions.transaction,
+        transactions: state.transactions.transactions
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoadTransaction: (transactionId) => dispatch(loadTransaction(transactionId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransactionDetail);

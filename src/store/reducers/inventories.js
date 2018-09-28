@@ -25,13 +25,13 @@ const reducer = (state = initialState, action) => {
         
         case UPDATE_INVENTORY:
             return {
-                ...this.state,
+                ...state,
                 inventory: action.updatedInventory
             }
 
         case DELETE_INVENTORY:
             return {
-                ...this.state,
+                ...state,
                 inventory: null
             }
 

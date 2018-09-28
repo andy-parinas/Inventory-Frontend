@@ -4,8 +4,7 @@ import axios from 'axios';
 import FormInput from '../../../../components/FormComponent/FormInput';
 import FormDataList from '../../../../components/FormComponent/FormDataList';
 import {InventoryBackendAPI} from '../../../../AppSettings';
-import {validateInput, validateForm, validateData} from '../../../../helpers/helpers';
-// import {initialInventoryForm} from '../../../../configurations/inventoryConfigurations'
+import {validateInput} from '../../../../helpers/helpers';
 
 
 class InventoryForm extends Component {
@@ -16,6 +15,7 @@ class InventoryForm extends Component {
         delete: false,
         action: '',
         updated: false,
+        id: 0,
         form: {
             product: {
                 value: '',
@@ -147,10 +147,11 @@ class InventoryForm extends Component {
     }
 
     componentDidMount() {
-    
+
         if(this.props.data){
             this.setState({
                     ...this.state,
+                    id: this.props.data.id,
                     form: {
                         ...this.state.form,
                         product: {
@@ -196,9 +197,15 @@ class InventoryForm extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState){
 
-        if(nextProps.updateContent){
+        // console.log('nextProps', nextProps);
+        // console.log('prevState', prevState);
+
+        if(nextProps.data.id !== prevState.id  || nextProps.data.status !== prevState.form.status.value){
+            console.log('Changing State ', nextProps.data.id);
+            
             return {
                 ...prevState,
+                id: nextProps.data.id,
                 form: {
                     ...prevState.form,
                     product: {
@@ -210,6 +217,12 @@ class InventoryForm extends Component {
                     sku: {
                         ...prevState.form.sku,
                         value: nextProps.data.sku,
+                        errorMessages: [],
+                        isValid: true
+                    },
+                    quantity: {
+                        ...prevState.form.quantity,
+                        value: nextProps.data.quantity,
                         errorMessages: [],
                         isValid: true
                     },
@@ -239,12 +252,12 @@ class InventoryForm extends Component {
                     }      
                 }
             }
+            
         }
 
         return null;
     
     }
-
 
     inputChangeHandler = (event) => {
         const name = event.target.name;

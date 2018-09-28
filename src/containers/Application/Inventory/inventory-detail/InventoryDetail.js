@@ -1,15 +1,13 @@
 import React, {Component, Fragment} from 'react';
-import axios from 'axios';
 import {connect} from 'react-redux';
 
 import InventoryForm from '../inventory-form/InventoryForm';
 import TransactionContainer from '../inventory-transaction/TransactionContainer';
 import InventoryTitleControl from '../InventoryTitleControl';
-import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
-import AlertMessage from '../../../../components/AlertMessageComponent/AlertMessage';
-import {validateForm, convertFormToObject} from '../../../../helpers/helpers'
+import {validateForm} from '../../../../helpers/helpers'
 import {showMessages, loadInventory, updateInventory, deleteInventory} from '../../../../store/actions/index';
+import withLoading from '../../../../hoc/withLoading';
 
 class InventoryDetail extends Component {
 
@@ -28,24 +26,9 @@ class InventoryDetail extends Component {
         const inventoryId = this.props.match.params.id;
         this.props.onLoadInventory(inventoryId);
 
+        console.log('ComponentDidMount - InventoryDetail')
+
     }
-
-
-    async deleteData(callback) {
-        try {
-            const response = await axios.delete(`${InventoryBackendAPI}/inventories/${this.props.match.params.id}`)
-            
-           if(response.status === 200){
-               callback();
-               this.props.onShowMessage('success', ['Successfully Deleted Inventory'])
-           }
-            
-        }catch(error) {
-            console.log(error);
-        }
-    }
-
-
     /*
     *  Form Buttons Handler
     */
@@ -157,7 +140,7 @@ class InventoryDetail extends Component {
    
     render() {
 
-        return this.props.inventory? this.renderDetails() : <LoadingComponent /> 
+        return this.props.inventory? this.renderDetails() : ''; 
     }
 
 }
@@ -177,4 +160,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InventoryDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(withLoading(InventoryDetail));

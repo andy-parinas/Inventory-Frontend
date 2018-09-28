@@ -15,7 +15,7 @@ const FormDataList = (props) => {
     }
 
     return(
-        <div className={`app-form-row__col app-form-row__col--1x2`}>
+        <div className='app-form-row-element'>
             <label  className={`app-form__label app-form__label--right`}> {props.elementConfig.title} </label>
             <input  
                 className={'app-form__input ' + ( !props.isValid && props.touched? 'app-form__input--error' : '') } 
@@ -23,9 +23,9 @@ const FormDataList = (props) => {
                 value={props.value} 
                 onChange={props.onChange}
                 disabled={props.disabled} />
-
-            { validationMessage }
-            
+            <div className='app-form-row-element__validation'>
+                { validationMessage }
+            </div>           
             <datalist id={props.elementConfig.name} >
                 {listOptions}
             </datalist>

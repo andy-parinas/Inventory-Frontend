@@ -41,11 +41,14 @@ const FormInput = (props) => {
     }
 
     return(
-        <div className={`app-form-row__col app-form-row__col--1x2`}>
+        <div className='app-form-row-element'>
             <label  className={`app-form__label app-form__label--right`}> {props.elementConfig.title} </label>
             
             {inputButton}
-            { validationMessage }
+            <div className='app-form-row-element__validation'>
+                { validationMessage }
+            </div>
+            
         </div>
     )
 }

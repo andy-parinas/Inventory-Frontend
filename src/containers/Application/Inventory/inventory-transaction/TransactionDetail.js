@@ -130,9 +130,6 @@ class TransactionDetail extends Component {
                 <TransactionForm    edit={this.state.edit} 
                                     delete={this.state.delete} 
                                     data={this.state.transaction}
-                                    // onEditSubmit={this.editButtonHandler} 
-                                    // onDeleteSubmit={this.deleteButtonHandler}
-                                    // onCancelSubmit={this.cancelButtonHandler}
                                     action={this.state.action} 
                                     onCancel={() => this.props.history.goBack()}  />
             </div>

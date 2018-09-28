@@ -1,47 +1,125 @@
 import React, {Component} from 'react';
 import FormInput from '../../../../components/FormComponent/FormInput';
 import FormTextArea from '../../../../components/FormComponent/FormTextArea';
-
+import axios from 'axios';
+import {InventoryBackendAPI} from '../../../../AppSettings';
+import FormSelect from '../../../../components/FormComponent/FormSelect';
+import {validateInput} from '../../../../helpers/helpers';
 
 class TransactionForm extends Component {
 
     state = {
-        // edit: false,
-        // delete: false,
-        transaction: {
-            transaction: '',
-            quantity: '',
-            timeStamp: '',
-            details: ''
+        form: {
+            transaction: {
+                value: 1,
+                elementConfig: {
+                    type: 'text',
+                    title: 'Transaction',
+                    name: 'transaction',
+                    placeholder: 'Enter Transaction Type'
+                },
+                isValid: true,
+                touched: false,
+                errorMessages: [],
+                validations: {
+                    required: true
+                }
+            },
+            quantity: {
+                value: '',
+                elementConfig: {
+                    type: 'text',
+                    title: 'Quantity',
+                    name: 'quantity',
+                    placeholder: 'Enter Quantity'
+                },
+                isValid: false,
+                touched: false,
+                errorMessages: [],
+                validations: {
+                    required: true,
+                    numbersOnly: true
+                }
+            },
+            timeStamp: {
+                value: '',
+                elementConfig: {
+                    type: 'text',
+                    title: 'TimeStamp',
+                    name: 'timestamp',
+                    placeholder: ''
+                },
+                isValid: true,
+                touched: false,
+                errorMessages: [],
+                validations: {
+                    required: true
+                }
+            },
+            details: {
+                value: '',
+                elementConfig: {
+                    type: 'text',
+                    title: 'Details',
+                    name: 'details',
+                    placeholder: 'Enter Details'
+                },
+                isValid: false,
+                touched: false,
+                errorMessages: [],
+                validations: {
+                    required: false,
+                }
+            }
         },
-        originalData: {
-            transaction: '',
-            quantity: '',
-            timeStamp: '',
-            details: ''
-        },
-        edit: this.props.action === 'edit',
-        delete: this.props.action === 'delete'
-
+        transactionOptions: []
     }
 
 
     componentDidMount() {
-        this.setState({
-            ...this.state,
-            transaction: {
-                transaction: this.props.data.transactionType.name,
-                quantity: this.props.data.quantity,
-                timeStamp: this.props.data.timeStamp,
-                details: this.props.data.details
-            },
-            originalData: {
-                transaction: this.props.data.transactionType.name,
-                quantity: this.props.data.quantity,
-                timeStamp: this.props.data.timeStamp,
-                details: this.props.data.details
-            }
-        })
+        if(this.props.data) {
+            this.setState({
+                ...this.state,
+                form: {
+                    ...this.state.form,
+                    transaction: {
+                        ...this.state.form.transaction,
+                        value: this.props.data.transactionType.id
+                    },
+                    quantity: {
+                        ...this.state.form.quantity,
+                        value: this.props.data.quantity
+                    },
+                    timeStamp: {
+                        ...this.state.form.timeStamp,
+                        value: this.props.data.timeStamp
+                    },
+                    details: {
+                        ...this.state.form.details,
+                        value: this.props.data.details
+                    }
+                }
+            });
+        }
+
+        this.loadTransactionOptions();
+    }
+
+
+    async loadTransactionOptions() {
+        try {
+            const uri = `${InventoryBackendAPI}/transactions/types`;
+
+            const response = await axios.get(uri);
+
+            this.setState({
+                ...this.state,
+                transactionOptions: response.data
+            })
+
+        }catch(error){
+            console.log(error.response);
+        }
     }
 
 
@@ -49,68 +127,42 @@ class TransactionForm extends Component {
         event.preventDefault();
     }
 
-    onInputChangeHandler = (event) => {
+    inputChangedHandler = (event) => {
         const name = event.target.name;
         const value = event.target.value;
 
+        const validationResult = validateInput(this.state.form[name].validations, value, 
+            this.state.form[name].options);
+
+
         this.setState({
             ...this.state,
-            transaction: {
-                ...this.state.transaction,
-                [name]: value
+            form: {
+                ...this.state.form,
+                [name] : {
+                    ...this.state.form[name],
+                    value: value,
+                    isValid: validationResult.isValid,
+                    errorMessages: validationResult.messages,
+                    touched: true
+                }
             }
         })
     }
 
-
-    cancelEditButtonHandler = () => {
-        if(this.state.action === 'edit' || this.state.action === 'delete' ) {
-             this.props.onCancel()
-        }else {
-            this.setState({
-                ...this.state,
-                edit: false,
-                delete: false,
-                transaction: this.state.originalData
-            })
-        }
-     }
- 
-     cancelDeleteButtonHandler = () => {
-         if(this.state.action === 'edit' || this.state.action === 'delete' ) {
-             this.props.onCancel()
-        }else {
-            this.setState({
-                ...this.state,
-                edit: false,
-                delete: false
-            })
-        }
-     }
- 
-     editButtonHandler = () => {
-         this.setState({
-             ...this.state,
-             edit: true,
-             delete: false
-         })
-     }
- 
-     deleteButtonHandler = () => {
-         this.setState({
-             ...this.state,
-             edit: false,
-             delete: true
-         })
-     }
+    saveButtonHandler = () => {
+        console.log('saved');
+        this.props.onSave(this.state.form)
+    }
 
 
     renderSaveCancelButton = () => (
         <div className='app-page__control'>
             <div className='app-group' >
-                <button type='button' className='app-btn'>Save</button>
+                <button type='button' className='app-btn' 
+                    onClick={this.saveButtonHandler} >Save</button>
                 <button type='button' className='app-btn'
-                        onClick={this.cancelEditButtonHandler} >Cancel</button>
+                        onClick={this.props.onCancel} >Cancel</button>
             </div>
         </div>
     )
@@ -139,32 +191,61 @@ class TransactionForm extends Component {
 
     render() {
 
+        let disabled = true;
+        if(this.props.action === 'new' || this.props.action === 'edit'){
+            disabled = false;
+        }
+
         return(
             <form onSubmit={this.submitFormHandler} >
-            <div className='app-form-container'>
-                <div className='app-form-row app-form-row--2'>
-                    <FormInput  labelPostion='right' title='Transaction Type' name='transaction' 
-                                onInputChange={this.onInputChangeHandler} edit={this.state.edit}
-                                inputValue={this.state.transaction.transaction} />
-                    <FormInput  labelPostion='right' title='Quantity' name='quantity'
-                                onInputChange={this.onInputChangeHandler} edit={this.state.edit}
-                                inputValue={this.state.transaction.quantity} />
+            <div className='app-form-container app-form-container--3rows'>
+                <div className='app-form-row app-form-row--r1c1'>
+                    <FormSelect 
+                            value={this.state.form.transaction.value}
+                            options={this.state.transactionOptions}
+                            onChange={this.inputChangedHandler}
+                            elementConfig={this.state.form.transaction.elementConfig} 
+                            disabled={disabled} />
+                </div>
+                <div className='app-form-row app-form-row--3rc2'>
+                    <FormTextArea   
+                            value={this.state.form.details.value}
+                            onChange={this.inputChangedHandler}
+                            isValid={this.state.form.details.isValid}
+                            touched={this.state.form.details.touched}
+                            errorMessages={this.state.form.details.errorMessages}
+                            elementConfig={this.state.form.details.elementConfig} 
+                            disabled={disabled} />
+
                 </div>
 
-                <div className='app-form-row app-form-row--2'>
-                    <FormInput  labelPostion='right' title='Time Stamp' name='timeStamp' 
-                                onInputChange={this.onInputChangeHandler} edit={this.state.edit}
-                                inputValue={this.state.transaction.timeStamp} />
+                 <div className='app-form-row app-form-row--r2c1'>
+                    
+                    <FormInput 
+                                value={this.state.form.quantity.value}
+                                onChange={this.inputChangedHandler}
+                                isValid={this.state.form.quantity.isValid}
+                                touched={this.state.form.quantity.touched}
+                                errorMessages={this.state.form.quantity.errorMessages}
+                                elementConfig={this.state.form.quantity.elementConfig} 
+                                disabled={disabled} />
+
                 </div>
-                <div className='app-form-row app-form-row--1'>
-                    <FormTextArea   labelPostion='right' title='Details' name='details' 
-                                    onInputChange={this.onInputChangeHandler} edit={this.state.edit}
-                                    inputValue={this.state.transaction.details} />
+                <div className='app-form-row app-form-row--r3c1'>
+                    
+                    <FormInput 
+                                value={this.state.form.timeStamp.value}
+                                onChange={this.inputChangedHandler}
+                                isValid={this.state.form.timeStamp.isValid}
+                                touched={this.state.form.timeStamp.touched}
+                                errorMessages={this.state.form.timeStamp.errorMessages}
+                                elementConfig={this.state.form.timeStamp.elementConfig} 
+                                disabled={true} />
                 </div>
             </div>
 
-             { this.state.edit || this.state.action === 'edit' ? this.renderSaveCancelButton() : 
-                this.state.delete || this.state.action === 'delete'? this.renderDeleteCofirmButton() : 
+             { this.props.action === 'edit' || this.props.action === 'new' ? this.renderSaveCancelButton() : 
+                this.props.action === 'delete'? this.renderDeleteCofirmButton() : 
                 this.renderEditDeleteButton() }
             </form>
         )

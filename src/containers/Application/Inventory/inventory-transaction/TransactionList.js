@@ -4,6 +4,7 @@ import axios from 'axios';
 import {InventoryBackendAPI} from '../../../../AppSettings';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
+import InventoryTitleControl from '../InventoryTitleControl';
 
 
 const columns = [
@@ -47,10 +48,21 @@ class TransactionList extends Component {
     }
 
 
+    newButtonHandler = () => {
+        this.props.history.push(`${this.props.match.params.id}/transactions/new`);
+    }
+
+
     render() {
+        console.log(this.props);
+        const titleButtons = [
+            {name: 'Add Transaction', action: this.newButtonHandler}
+        ]
 
         const transactionList = <Fragment>
-                                    <h3>Transaction List</h3>
+                                    <InventoryTitleControl  title='Transaction Detail'
+                                        buttons={titleButtons} 
+                                        showButton={true} />
                                     <TableComponent columns={columns} 
                                             data={this.state.transactions} 
                                             match={this.props.match} />

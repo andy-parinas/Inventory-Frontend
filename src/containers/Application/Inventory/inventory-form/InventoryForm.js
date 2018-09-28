@@ -147,8 +147,6 @@ class InventoryForm extends Component {
     }
 
     componentDidMount() {
-
-        console.log(this.props);
     
         if(this.props.data){
             this.setState({
@@ -205,27 +203,39 @@ class InventoryForm extends Component {
                     ...prevState.form,
                     product: {
                         ...prevState.form.product,
-                        value: nextProps.data.product
+                        value: nextProps.data.product,
+                        errorMessages: [],
+                        isValid: true
                     },
                     sku: {
                         ...prevState.form.sku,
-                        value: nextProps.data.sku
+                        value: nextProps.data.sku,
+                        errorMessages: [],
+                        isValid: true
                     },
                     thresholdCritical: {
                         ...prevState.form.thresholdCritical,
-                        value: nextProps.data.thresholdCritical
+                        value: nextProps.data.thresholdCritical,
+                        errorMessages: [],
+                        isValid: true
                     },
                     thresholdWarning: {
                         ...prevState.form.thresholdWarning,
-                        value: nextProps.data.thresholdWarning
+                        value: nextProps.data.thresholdWarning,
+                        errorMessages: [],
+                        isValid: true
                     },
                     status: {
                         ...prevState.form.status,
-                        value: nextProps.data.status
+                        value: nextProps.data.status,
+                        errorMessages: [],
+                        isValid: true
                     },
                     location: {
                         ...prevState.form.location,
-                        value: nextProps.data.location
+                        value: nextProps.data.location,
+                        errorMessages: [],
+                        isValid: true
                     }      
                 }
             }
@@ -479,11 +489,12 @@ class InventoryForm extends Component {
 
         return(
             <form onSubmit={this.formSubmitHandler} >
-                <div className='app-form-container' >
-                    <div className='app-form-row app-form-row--2'>
-
+                <div className='app-form-container app-form-container--4rows' >
+                    <div className='app-form-row app-form-row--r1c1'>
                         { sku }
+                    </div>
 
+                    <div className='app-form-row app-form-row--r1c2'>
                         <FormInput 
                             value={this.state.form.quantity.value}
                             onChange={this.inputChangeHandler}
@@ -494,7 +505,7 @@ class InventoryForm extends Component {
                             disabled={true} />
 
                     </div>
-                    <div className='app-form-row app-form-row--2'>
+                    <div className='app-form-row app-form-row--r2c1'>
 
                         <FormDataList 
                             value={this.state.form.product.value}
@@ -505,7 +516,8 @@ class InventoryForm extends Component {
                             options={this.state.form.product.options}
                             elementConfig={this.state.form.product.elementConfig}
                             disabled={disabled} />
-
+                    </div>
+                    <div className='app-form-row app-form-row--r2c2'>
                         <FormInput 
                             value={this.state.form.status.value}
                             onChange={this.inputChangeHandler} 
@@ -516,7 +528,7 @@ class InventoryForm extends Component {
                             disabled={true} />
 
                     </div>
-                    <div className='app-form-row app-form-row--2'>
+                    <div className='app-form-row app-form-row--r3c1'>
 
                         <FormInput 
                             value={this.state.form.thresholdWarning.value}
@@ -526,7 +538,8 @@ class InventoryForm extends Component {
                             errorMessages={this.state.form.thresholdWarning.errorMessages}
                             elementConfig={this.state.form.thresholdWarning.elementConfig}
                             disabled={disabled} />
-
+                    </div>
+                    <div className='app-form-row app-form-row--r3c2'>
                         <FormInput 
                             value={this.state.form.thresholdCritical.value}
                             onChange={this.inputChangeHandler}
@@ -537,7 +550,7 @@ class InventoryForm extends Component {
                             disabled={disabled} />
 
                     </div>
-                    <div className='app-form-row app-form-row--2'>
+                    <div className='app-form-row app-form-row--r4c1'>
                         <FormDataList 
                             value={this.state.form.location.value}
                             onChange={this.inputChangeHandler}

@@ -1,75 +1,46 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import {connect} from 'react-redux';
+
 import TransactionForm from './TransactionForm';
-import {validateForm, convertFormToObject} from '../../../../helpers/helpers';
-import {InventoryBackendAPI} from '../../../../AppSettings';
-import {showMessages} from '../../../../store/actions/index';
+import {validateForm} from '../../../../helpers/helpers';
+import {createTransaction, showMessages} from '../../../../store/actions/index';
 
 class TransactionNew extends Component {
 
     state = {
-        action: 'new'
-    }
-
-    componentDidMount(){
-        console.log(this.props);
+        id: 0,
+        transactionType: {
+            id: 1
+        },
+        quantity: '',
+        timeStamp: '',
+        details: ''
     }
 
     transactionSavedHandler = (transactionForm) => {
-        const newTransaction = {
-            transaction: 0,
-            quantity: 0,
-            details: ''
-        }
 
         if(validateForm(transactionForm)){
 
-            convertFormToObject(transactionForm, newTransaction);
-
             const inventoryId = this.props.match.params.id;
+            this.props.onCreateTransaction(inventoryId, transactionForm, ()=>{
+                this.props.history.push(`/inventories/${inventoryId}`);
+            })
             
-            this.postTransactionToBackend(newTransaction, inventoryId);
 
         }else {
             this.props.onShowMessage('error', ['Forms are not valid for submission']);
-        }
-
-        
+        } 
 
     }
 
-    async postTransactionToBackend(transaction, inventoryId){
-        
-        try{
-
-            const uri = `${InventoryBackendAPI}/inventories/${inventoryId}/transactions`;
-            const response = await axios.post(uri, transaction);
-
-            if(response.status === 200){
-                this.props.history.push(`/inventories/${inventoryId}`);
-                this.props.onShowMessage('success', ['Successfully Created Transaction']);
-            }
-
-
-        }catch(error){
-
-            console.log(error);
-            let messages = [];
-            for(let err in error.response.data){
-                messages.push(error.response.data[err][0]);
-            }
-            
-            this.props.onShowMessage('error', messages);
-        }
-
-    }
+   
 
     render() {
 
         return(
             <TransactionForm   
-                action={this.state.action}
+                action='new'
+                data={this.state}
                 onSave={this.transactionSavedHandler}             
                 onCancel={() => this.props.history.goBack()}  />
         )
@@ -79,6 +50,8 @@ class TransactionNew extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
+        onCreateTransaction: (inventoryId, transactionForm, callback) => 
+                                dispatch(createTransaction(inventoryId, transactionForm, callback)),
         onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
     }
 }

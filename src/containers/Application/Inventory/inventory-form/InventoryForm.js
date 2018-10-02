@@ -197,12 +197,10 @@ class InventoryForm extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState){
 
-        // console.log('nextProps', nextProps);
-        // console.log('prevState', prevState);
+        if(nextProps.updateContent || nextProps.data.id !== prevState.id  
+            || nextProps.data.status !== prevState.form.status.value 
+            || nextProps.data.quantity !== prevState.form.quantity.value){
 
-        if(nextProps.data.id !== prevState.id  || nextProps.data.status !== prevState.form.status.value){
-            console.log('Changing State ', nextProps.data.id);
-            
             return {
                 ...prevState,
                 id: nextProps.data.id,
@@ -464,6 +462,8 @@ class InventoryForm extends Component {
     )
 
     render() {
+
+        console.log('Action: ', this.props.action)
 
         let disabled = true;
 

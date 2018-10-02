@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-// import axios from 'axios';
 
 import {loadInventories} from '../../../../store/actions/index';
 import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
-// import {InventoryBackendAPI} from '../../../../AppSettings';
 import LoadingComponent from '../../../../components/UI/LoadingComponent';
-// import withMessages from '../../../../hoc/withMessages';     
-
+import withLoading from '../../../../hoc/withLoading';
 
 
 const columns = [
@@ -24,10 +21,6 @@ const columns = [
 
 class InventoryList extends Component {
 
-    // state = {
-    //     inventories: null,
-    //     pagination: null
-    // }
 
     componentDidMount() {
         
@@ -63,7 +56,7 @@ class InventoryList extends Component {
 
     render(){
 
-        return this.props.inventories && this.props.pagination? this.renderInventoriestable() : <LoadingComponent />
+        return this.props.inventories && this.props.pagination? this.renderInventoriestable() : ''
 
     }
 
@@ -82,4 +75,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InventoryList);
+export default connect(mapStateToProps, mapDispatchToProps)(withLoading(InventoryList));

@@ -9,6 +9,7 @@ import {validateInput} from '../../../../helpers/helpers';
 class TransactionForm extends Component {
 
     state = {
+        id: 0,
         form: {
             transaction: {
                 value: 1,
@@ -80,6 +81,7 @@ class TransactionForm extends Component {
         if(this.props.data) {
             this.setState({
                 ...this.state,
+                id: this.props.data.id,
                 form: {
                     ...this.state.form,
                     transaction: {
@@ -123,6 +125,38 @@ class TransactionForm extends Component {
     }
 
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.updateContent || nextProps.data.id !== prevState.id 
+            || nextProps.data.timeStamp !== prevState.form.timeStamp.value){
+            return {
+                ...prevState,
+                id: nextProps.data.id,
+                form: {
+                    ...prevState.form,
+                    transaction: {
+                        ...prevState.form.transaction,
+                        value: nextProps.data.transactionType.id
+                    },
+                    quantity: {
+                        ...prevState.form.quantity,
+                        value: nextProps.data.quantity
+                    },
+                    timeStamp: {
+                        ...prevState.form.timeStamp,
+                        value: nextProps.data.timeStamp
+                    },
+                    details: {
+                        ...prevState.form.details,
+                        value: nextProps.data.details
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+
     submitFormHandler = (event) => {
         event.preventDefault();
     }
@@ -151,7 +185,6 @@ class TransactionForm extends Component {
     }
 
     saveButtonHandler = () => {
-        console.log('saved');
         this.props.onSave(this.state.form)
     }
 
@@ -162,7 +195,7 @@ class TransactionForm extends Component {
                 <button type='button' className='app-btn' 
                     onClick={this.saveButtonHandler} >Save</button>
                 <button type='button' className='app-btn'
-                        onClick={this.props.onCancel} >Cancel</button>
+                        onClick={this.props.onCancelClicked} >Cancel</button>
             </div>
         </div>
     )
@@ -171,7 +204,7 @@ class TransactionForm extends Component {
         <div className='app-page__control'>
                 <div className='control-group control-group--col2 control-group--right'>
                     <button type='button' className='app-btn' 
-                            onClick={this.editButtonHandler} >Edit</button>
+                            onClick={this.props.onEditClicked} >Edit</button>
                     <button type='button' className='app-btn' 
                             onClick={this.deleteButtonHandler} >Delete</button>
                 </div>

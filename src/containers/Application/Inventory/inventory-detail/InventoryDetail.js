@@ -26,7 +26,10 @@ class InventoryDetail extends Component {
         const inventoryId = this.props.match.params.id;
         this.props.onLoadInventory(inventoryId);
 
-        console.log('ComponentDidMount - InventoryDetail')
+        this.setState({
+            ...this.state,
+            action: this.props.location.state? this.props.location.state.action : 'show' 
+        })
 
     }
     /*
@@ -62,9 +65,6 @@ class InventoryDetail extends Component {
     }
 
     deleteConfirmedHandler = () => {
-        // this.deleteData(() => {
-        //     this.props.history.push('/inventories');
-        // });
         const inventoryId = this.props.match.params.id;
 
         this.props.onDeleteInventory(inventoryId, () => {
@@ -139,7 +139,6 @@ class InventoryDetail extends Component {
 
    
     render() {
-
         return this.props.inventory? this.renderDetails() : ''; 
     }
 

@@ -18,5 +18,7 @@ export {
 
 export {
     loadTransactions,
-    loadTransaction
+    loadTransaction,
+    createTransaction,
+    updateTransaction
 } from './transactions';

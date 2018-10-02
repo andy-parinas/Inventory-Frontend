@@ -1,4 +1,4 @@
-import { LOAD_TRANSACTIONS, LOAD_TRANSACTION } from '../actions/actionTypes';
+import { LOAD_TRANSACTIONS, LOAD_TRANSACTION, CREATE_TRANSACTION } from '../actions/actionTypes';
 
 const initalState = {
     transactions: [],
@@ -19,6 +19,12 @@ const reducer = (state = initalState, action) => {
             }
         
         case LOAD_TRANSACTION:
+            return {
+                ...state,
+                transaction: action.transaction
+            }
+
+        case CREATE_TRANSACTION:
             return {
                 ...state,
                 transaction: action.transaction

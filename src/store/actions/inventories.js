@@ -14,6 +14,11 @@ import {convertFormToObject} from '../../helpers/helpers';
 export const loadInventories = (pageNumber: number = 1) => async dispatch => {
 
     try {
+
+        dispatch({
+            type: SHOW_LOADING
+        })
+        
         const uri = `${InventoryBackendAPI}/inventories?pageNumber=${pageNumber}`;
         const response = await axios.get(uri);
 
@@ -21,6 +26,10 @@ export const loadInventories = (pageNumber: number = 1) => async dispatch => {
             type: LOAD_INVENTORIES,
             inventories: response.data,
             pagination: JSON.parse(response.headers.pagination)
+        })
+
+        dispatch({
+            type: HIDE_LOADING
         })
 
     }catch(error) {

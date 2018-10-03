@@ -11,7 +11,7 @@ import {LOAD_INVENTORIES,
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
 
-export const loadInventories = (pageNumber: number = 1) => async dispatch => {
+export const loadInventories = (pageNumber: number = 1, sort, callback) => async dispatch => {
 
     try {
 
@@ -19,7 +19,18 @@ export const loadInventories = (pageNumber: number = 1) => async dispatch => {
             type: SHOW_LOADING
         })
         
-        const uri = `${InventoryBackendAPI}/inventories?pageNumber=${pageNumber}`;
+        let uri = `${InventoryBackendAPI}/inventories?pageNumber=${pageNumber}`;
+
+        
+
+        if(sort){
+            if(sort.asc){
+                uri = uri + `&orderBy=${sort.column}&direction=ASC`
+            }else{
+                uri = uri + `&orderBy=${sort.column}&direction=DESC`
+            }           
+        }
+
         const response = await axios.get(uri);
 
         dispatch({
@@ -27,6 +38,12 @@ export const loadInventories = (pageNumber: number = 1) => async dispatch => {
             inventories: response.data,
             pagination: JSON.parse(response.headers.pagination)
         })
+
+
+        if(callback){
+            callback();
+        }
+        
 
         dispatch({
             type: HIDE_LOADING

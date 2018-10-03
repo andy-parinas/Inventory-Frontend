@@ -179,3 +179,51 @@ export const updateTransaction = (inventoryId, transactionId, transactionForm, c
 
     }
 }
+
+
+export const deleteTransction = (transactionId, callback) => async dispatch => {
+
+    try{
+
+        dispatch({
+            type: SHOW_LOADING
+        })
+
+
+        const uri = `${InventoryBackendAPI}/transactions/${transactionId}`;
+
+        const response = await axios.delete(uri);
+
+        dispatch({
+            type: LOAD_INVENTORY,
+            inventory: response.data.inventory
+        })
+
+        dispatch({
+            type: HIDE_LOADING
+        })
+
+        callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages: ['Successfuly deleted transaction']
+        })
+
+
+    }catch(error){
+
+        dispatch({
+            type: HIDE_LOADING
+        })
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'error',
+            messages: ['Error deleting transaction']
+        })
+
+    }
+
+}

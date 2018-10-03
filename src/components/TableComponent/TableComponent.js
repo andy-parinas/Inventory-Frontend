@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import SortAmountAsc from '../UI/Icons/SortAmountAsc';
+import SortAmountDesc from '../UI/Icons/SortAmountDesc';
 
 const TableCell = (props) => {
 
@@ -38,9 +40,24 @@ const TableData = (props) => {
 
 const TableHeader = (props) => {
 
+    let sortIcon = ''
+
+    if(props.sort) {
+        if(props.sort.asc){
+            sortIcon = <SortAmountAsc className='app-table__icon' />
+        }else {
+            sortIcon = <SortAmountDesc className='app-table__icon' />
+        }
+    }
+
+    // const sort = <span className='app-table__sort'>{ sortIcon }</span>
+
     const columns = props.columns.map(column => {
         return  <th className='app-table__header' key={Math.random()}>
-                    { column.name }
+                    <div className='app-table__header-title' onClick={() => props.onSort(column.value)} >
+                        <span className='app-table__header-text'>{ column.name }</span>
+                        { props.sort? props.sort.column === column.value? sortIcon : '' : ''}
+                    </div>
                 </th>
     })
 
@@ -59,7 +76,7 @@ class TableComponent extends Component {
         
         return(
             <table className='app-table app-table--bordered'>
-                <TableHeader columns={this.props.columns} />
+                <TableHeader columns={this.props.columns} sort={this.props.sort} onSort={this.props.onSort} />
                 <TableData columns={this.props.columns} data={this.props.data} match={this.props.match} />
             </table>
         )

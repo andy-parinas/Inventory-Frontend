@@ -35,6 +35,8 @@
             letter-spacing: 0.5px;
             font-family: "Lato", sans-serif;
             background-color:#c6c6c6;
+
+        //    display: flex
         }
 
         &__actions{
@@ -54,6 +56,20 @@
             &:hover {
                 cursor: pointer;
                 text-decoration: underline;
+            }
+        }
+
+        &__icon{
+            height: 1.6rem;
+        }
+
+        &__header-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+            &:hover{
+                cursor: pointer;
             }
         }
 }

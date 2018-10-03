@@ -206,7 +206,7 @@ class TransactionForm extends Component {
                     <button type='button' className='app-btn' 
                             onClick={this.props.onEditClicked} >Edit</button>
                     <button type='button' className='app-btn' 
-                            onClick={this.deleteButtonHandler} >Delete</button>
+                            onClick={this.props.onDeleteClicked} >Delete</button>
                 </div>
           </div>
     )
@@ -215,7 +215,7 @@ class TransactionForm extends Component {
         <div className='app-page__control'>
             <div className='control-group'>
                 <span> Confirm Delete? </span>
-                <button type='button' className='app-btn'>Yes</button>
+                <button type='button' className='app-btn' onClick={this.props.onDeleteConfirmed} >Yes</button>
                 <button type='button' className='app-btn' 
                         onClick={this.cancelDeleteButtonHandler} >No</button>
             </div>
@@ -223,7 +223,7 @@ class TransactionForm extends Component {
     )
 
     render() {
-
+        console.log('action: ', this.props.action);
         let disabled = true;
         if(this.props.action === 'new' || this.props.action === 'edit'){
             disabled = false;

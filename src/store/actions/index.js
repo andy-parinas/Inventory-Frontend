@@ -20,5 +20,6 @@ export {
     loadTransactions,
     loadTransaction,
     createTransaction,
-    updateTransaction
+    updateTransaction,
+    deleteTransction
 } from './transactions';

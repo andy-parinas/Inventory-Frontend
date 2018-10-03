@@ -10,9 +10,9 @@ import withLoading from '../../../../hoc/withLoading';
 
 
 const columns = [
-    {name: 'SKU', value:'sku'},
     {name: 'Location', value:'location'},
     {name: 'Products', value:'product'},
+    {name: 'SKU', value:'sku'},
     {name: 'Quantity', value:'quantity'},
     {name: 'Status', value:'status'},
     {name: '', value:'actions', link:'inventories' }
@@ -21,10 +21,16 @@ const columns = [
 
 class InventoryList extends Component {
 
+    state = {
+        sort: {
+            column: 'location',
+            asc: true
+        }
+    }
 
     componentDidMount() {
         
-       this.props.loadInventories(1)
+       this.props.loadInventories(1, this.state.sort, null)
     }
 
 
@@ -35,9 +41,30 @@ class InventoryList extends Component {
     pageChangedHandler = (pageNumber: number = 1) => {
 
         if(pageNumber >= 1 && pageNumber <= this.props.pagination.totalPages){
-            this.props.loadInventories(pageNumber);
+            this.props.loadInventories(pageNumber, this.state.sort, null);
         }
         
+    }
+
+    inventorySortedHandler = (columnName) => {
+
+        const sort = {
+            column: columnName,
+            asc: columnName === this.state.sort.column? !this.state.sort.asc : true
+        }
+
+        const pageNumber = this.props.pagination.pageNumber
+
+        this.props.loadInventories(pageNumber, sort, () => {
+            this.setState(prevState => {
+                return {
+                    ...this.state,
+                   sort: {
+                    ...sort
+                   }
+                }
+            })
+        })
     }
 
     renderInventoriestable(){
@@ -46,8 +73,12 @@ class InventoryList extends Component {
             <div className='app-container'>
                 <InventoryControl onClickNew={this.newInventoryHandler} />
                 <div className='app-row' >
-                    <TableComponent columns={columns} 
-                        data={this.props.inventories} match={this.props.match} />
+                    <TableComponent
+                        columns={columns} 
+                        data={this.props.inventories} 
+                        sort={this.state.sort}
+                        onSort={this.inventorySortedHandler}
+                        match={this.props.match} />
                 </div>
                 <TablePageControl pagination={this.props.pagination} onPageChanged={this.pageChangedHandler} />
             </div>
@@ -55,7 +86,7 @@ class InventoryList extends Component {
     }
 
     render(){
-
+        console.log(this.state);
         return this.props.inventories && this.props.pagination? this.renderInventoriestable() : ''
 
     }
@@ -71,7 +102,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadInventories: (pageNumber) => dispatch(loadInventories(pageNumber))
+        loadInventories: (pageNumber, sort, callback) => dispatch(loadInventories(pageNumber, sort, callback))
     }
 }
 

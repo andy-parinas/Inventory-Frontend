@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 // import axios from 'axios';
 import {connect} from 'react-redux';
 
-import {loadTransaction, updateTransaction, showMessages} from '../../../../store/actions/index';
+import {loadTransaction, updateTransaction, showMessages, deleteTransction} from '../../../../store/actions/index';
 
 import TransactionForm from './TransactionForm';
 import InventoryTitleControl from '../InventoryTitleControl';
@@ -77,6 +77,16 @@ class TransactionDetail extends Component {
 
     }
 
+    transactionDeletedHandler = () => {
+        const transactionId = this.props.match.params.transId;
+        
+
+        this.props.onDeleteTransaction(transactionId, () => {
+            this.props.history.push(`/inventories/${this.props.match.params.id}`);
+        })
+
+    }
+
     renderContent = () => {
 
         const titleButtons = [
@@ -106,7 +116,7 @@ class TransactionDetail extends Component {
                     onEditClicked={this.editButtonHandler}
                     onCancelClicked={this.cancelButtonHandler}
                     onDeleteClicked={this.deleteButtonHandler}
-                    onDeleteConfirmed={this.deleteConfirmedHandler}  />
+                    onDeleteConfirmed={this.transactionDeletedHandler}  />
             </div>
         )
     }
@@ -131,6 +141,7 @@ const mapDispatchToProps = dispatch => {
         onLoadTransaction: (transactionId) => dispatch(loadTransaction(transactionId)),
         onUpdateTransaction: (inventoryId, transactionId, transactionForm, callback) => dispatch(updateTransaction(
             inventoryId, transactionId, transactionForm, callback)),
+        onDeleteTransaction: (transactionId, callback) => dispatch(deleteTransction(transactionId, callback)),
         onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
     }
 }

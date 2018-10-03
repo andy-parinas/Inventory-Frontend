@@ -23,7 +23,7 @@ const ApplicationContainer = () => {
             </NavigationHeader>
             <Switch>
                 <Route path='/dashboard' component={ DashboardContainer } />
-                <Route path='/product' component={ ProductContainer } />
+                <Route path='/products' component={ ProductContainer } />
                 <Route path='/inventories' component={ InventoryContainer } />
                 <Redirect to='/dashboard' from='/' />
             </Switch>

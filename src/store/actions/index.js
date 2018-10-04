@@ -23,3 +23,7 @@ export {
     updateTransaction,
     deleteTransction
 } from './transactions';
+
+export {
+    loadProducts
+} from './products';

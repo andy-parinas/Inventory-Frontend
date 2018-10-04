@@ -14,7 +14,16 @@ const TableCell = (props) => {
                         <Link to={{pathname: `${props.match.url}/${props.data['id']}`,  state: {action: 'delete'}}} className='app-table__link'>Delete </Link>
                     </td>
         }else {
-            return <td className='app-table__data' key={i}> {props.data[column.value]} </td>
+
+            let columnData = '';
+
+            if(column.shorten && props.data[column.value].length > 60){
+                columnData = props.data[column.value].slice(0, 60) + '...';
+            }else {
+                columnData = props.data[column.value];
+            }
+
+            return <td className='app-table__data' key={i}> { columnData } </td>
         }
     })
 

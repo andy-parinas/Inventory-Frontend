@@ -3,7 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 
 import PageTitle from '../../../components/PageTitle/PageTitle';
 import {ClipboardIcon} from '../../../components/UI/Icons';
-import InventoryList from './inventory-list/inventory-list';
+import InventoryList from './inventory-list/InventoryList';
 import InventoryDetail from './inventory-detail/InventoryDetail';
 import InventoryNew from './inventory-new/InventoryNew';
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {loadInventories} from '../../../../store/actions/index';
+import {loadInventories} from '../../../../store/actions';
 import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
@@ -10,11 +10,11 @@ import withLoading from '../../../../hoc/withLoading';
 
 
 const columns = [
-    {name: 'Location', value:'location'},
-    {name: 'Products', value:'product'},
-    {name: 'SKU', value:'sku'},
-    {name: 'Quantity', value:'quantity'},
-    {name: 'Status', value:'status'},
+    {name: 'Location', value:'location', sortable: true},
+    {name: 'Products', value:'product', sortable: true},
+    {name: 'SKU', value:'sku', sortable: true},
+    {name: 'Quantity', value:'quantity', sortable: true},
+    {name: 'Status', value:'status', sortable: true},
     {name: '', value:'actions', link:'inventories' }
 ];
 

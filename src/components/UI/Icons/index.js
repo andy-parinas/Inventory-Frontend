@@ -6,6 +6,8 @@ import WrenchIcon from './WrenchIcon';
 import FileIcon from './FileIcon';
 import SphereIcon from './SphereIcon';
 import ClipboardIcon from './ClipboardIcon';
+import QRCodeIcon from './QRCodeIcon';
+
 
 export {
     CogIcon,
@@ -15,5 +17,6 @@ export {
     WrenchIcon,
     FileIcon,
     SphereIcon,
-    ClipboardIcon
+    ClipboardIcon,
+    QRCodeIcon
 }

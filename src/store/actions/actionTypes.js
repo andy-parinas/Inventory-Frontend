@@ -16,4 +16,10 @@ export const UPDATE_TRANSACTION = 'update_transaction';
 export const CREATE_TRANSACTION = 'create_transaction';
 export const DELETE_TRANSACTION = 'delete_transaction';
 
+export const LOAD_PRODUCTS = 'load_products';
+export const LOAD_PRODUCT = 'load_product';
+export const CREATE_PRODUCT = 'create_product';
+export const UPDATE_PRODUCT = 'update_product';
+export const DELETE_PRODUCT = 'delete_product';
+
 

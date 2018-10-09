@@ -19,7 +19,7 @@ const FormTextArea = props => {
             <label  className={`app-form__label app-form__label--right`}> {props.elementConfig.title} </label>
 
             <textarea   className='app-form__text-area' 
-                        cols={40} rows={10}
+                        cols={40} rows={5}
                         {...props.elementConfig}
                         disabled={props.disabled}
                         value={props.value} onChange={props.onChange}  />

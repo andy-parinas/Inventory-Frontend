@@ -25,5 +25,8 @@ export {
 } from './transactions';
 
 export {
-    loadProducts
+    loadProducts,
+    loadProduct,
+    updateProduct,
+    deleteProduct
 } from './products';

@@ -11,7 +11,9 @@ import TablePageControl from '../../../../components/TableComponent/TablePageCon
 const columns = [
     {name: 'Product', value:'name', sortable: true},
     {name: 'Category', value:'category', sortable: true},
-    {name: 'Descriptions', value:'descriptions', shorten: true, sortable: false},
+    // {name: 'Descriptions', value:'descriptions', shorten: true, sortable: false},
+    {name: 'Cost', value:'cost', sortable: true},
+    {name: 'Price', value:'price', sortable: true},
     {name: '', value:'actions', link:'products' }
 ];
 
@@ -85,7 +87,6 @@ class ProductList extends Component {
     }
 
     render(){
-        console.log(this.state.sort);
         return this.props.products && this.props.pagination ? this.renderProductsTable() : '';
     }
 }

@@ -1,4 +1,4 @@
-import { LOAD_PRODUCTS, LOAD_PRODUCT } from '../actions/actionTypes';
+import { LOAD_PRODUCTS, LOAD_PRODUCT, UPDATE_PRODUCT, DELETE_PRODUCT } from '../actions/actionTypes';
 
 
 const initialState = {
@@ -25,6 +25,16 @@ const reducer = (state = initialState, action) => {
                 product: action.product
             }
 
+        case UPDATE_PRODUCT:
+            return {
+                ...state,
+                product: action.product
+            }
+        case DELETE_PRODUCT:
+            return {
+                ...state,
+                product: null
+            }
         default:
             return state;
     }

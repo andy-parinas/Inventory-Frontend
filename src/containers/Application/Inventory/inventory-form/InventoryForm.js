@@ -262,7 +262,8 @@ class InventoryForm extends Component {
         const value = event.target.value;
         const params = encodeURIComponent(value);
 
-        const validationResult = validateInput(this.state.form[name].validations, value, this.state.form[name].options);
+        const validationResult = validateInput(this.state.form[name].validations, 
+            value, this.state.form[name].options);
 
 
         if(name ==='product' || name === 'location'){        
@@ -462,8 +463,6 @@ class InventoryForm extends Component {
     )
 
     render() {
-
-        console.log('Action: ', this.props.action)
 
         let disabled = true;
 

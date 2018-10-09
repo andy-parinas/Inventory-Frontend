@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import InventoryForm from '../inventory-form/InventoryForm';
 import TransactionContainer from '../inventory-transaction/TransactionContainer';
 import InventoryTitleControl from '../InventoryTitleControl';
-import LoadingComponent from '../../../../components/UI/LoadingComponent';
 import {validateForm} from '../../../../helpers/helpers'
 import {showMessages, loadInventory, updateInventory, deleteInventory} from '../../../../store/actions/index';
 import withLoading from '../../../../hoc/withLoading';
@@ -102,7 +101,7 @@ class InventoryDetail extends Component {
     renderDetails = () => {
         const titleButtons = [
             {name: 'New Inventory', action: this.newButtonHandler},
-            {name: '< Go Back', action: () => this.props.history.goBack() }
+            {name: '< Go Back', action: () => this.props.history.push('/inventories') }
         ]
 
         let transaction = <TransactionContainer />; 

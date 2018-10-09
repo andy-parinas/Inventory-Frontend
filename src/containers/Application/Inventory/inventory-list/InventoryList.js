@@ -5,7 +5,6 @@ import {loadInventories} from '../../../../store/actions';
 import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
-import LoadingComponent from '../../../../components/UI/LoadingComponent';
 import withLoading from '../../../../hoc/withLoading';
 
 
@@ -86,7 +85,7 @@ class InventoryList extends Component {
     }
 
     render(){
-        console.log(this.state);
+
         return this.props.inventories && this.props.pagination? this.renderInventoriestable() : ''
 
     }

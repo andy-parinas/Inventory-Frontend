@@ -36,7 +36,7 @@ class ProductForm extends Component {
                 }
             },
             category: {
-                value: '',
+                value: 1,
                 elementConfig : {
                     type: 'text',
                     title: 'Category',
@@ -47,7 +47,7 @@ class ProductForm extends Component {
                 uriSegment: 'products',
                 searchFor: 'name',
                 options: [],
-                isValid: false,
+                isValid: true,
                 touched: false,
                 errorMessages: [],
                 validations: {

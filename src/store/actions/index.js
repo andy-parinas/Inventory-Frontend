@@ -28,5 +28,6 @@ export {
     loadProducts,
     loadProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    createProduct
 } from './products';

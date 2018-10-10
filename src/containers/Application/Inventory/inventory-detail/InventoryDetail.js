@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import InventoryForm from '../inventory-form/InventoryForm';
 import TransactionContainer from '../inventory-transaction/TransactionContainer';
-import InventoryTitleControl from '../InventoryTitleControl';
+import TitleControl from '../../../../components/PageTitle/TitleControl';
 import {validateForm} from '../../../../helpers/helpers'
 import {showMessages, loadInventory, updateInventory, deleteInventory} from '../../../../store/actions/index';
 import withLoading from '../../../../hoc/withLoading';
@@ -11,7 +11,7 @@ import withLoading from '../../../../hoc/withLoading';
 class InventoryDetail extends Component {
 
     state = {
-        action: 'show',
+        action: 'details',
         inventory: null,
         updateContent: false,
         message: {
@@ -27,7 +27,7 @@ class InventoryDetail extends Component {
 
         this.setState({
             ...this.state,
-            action: this.props.location.state? this.props.location.state.action : 'show' 
+            action: this.props.location.state? this.props.location.state.action : 'details' 
         })
 
     }
@@ -80,7 +80,7 @@ class InventoryDetail extends Component {
             this.props.onUpdateInventory(inventoryId, inventoryForm, () => {
                 this.setState({
                     ...this.state,
-                    action: 'show',
+                    action: 'details',
                     updateContent: true
                 })
             });
@@ -100,7 +100,7 @@ class InventoryDetail extends Component {
 
     renderDetails = () => {
         const titleButtons = [
-            {name: 'New Inventory', action: this.newButtonHandler},
+            {name: 'New Inventory', action: ()=> this.props.history.push('/inventories/new')},
             {name: '< Go Back', action: () => this.props.history.push('/inventories') }
         ]
 
@@ -117,7 +117,7 @@ class InventoryDetail extends Component {
                 <div className='app-row' >                
                     <div className='app-col app-col--80'>
 
-                        <InventoryTitleControl  title='Inventory Detail' 
+                        <TitleControl  title='Inventory' action={this.state.action}
                                 buttons={titleButtons} showButton={showButton} />
 
                         <InventoryForm  

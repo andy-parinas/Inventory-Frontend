@@ -9,7 +9,7 @@ const TableCell = (props) => {
         if(column.value === 'actions'){
             
             return  <td className='app-table__data app-table__actions' key={i}> 
-                        <Link to={{pathname: `${props.match.url}/${props.data['id']}`, state: {action: 'show'}}} className='app-table__link'>View </Link> |
+                        <Link to={{pathname: `${props.match.url}/${props.data['id']}`, state: {action: 'details'}}} className='app-table__link'>View </Link> |
                         <Link to={{pathname: `${props.match.url}/${props.data['id']}` , state: {action: 'edit'}} } className='app-table__link'>Edit </Link> |
                         <Link to={{pathname: `${props.match.url}/${props.data['id']}`,  state: {action: 'delete'}}} className='app-table__link'>Delete </Link>
                     </td>

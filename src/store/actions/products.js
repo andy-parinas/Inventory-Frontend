@@ -1,6 +1,14 @@
 import axios from 'axios';
 
-import { SHOW_MESSAGES, LOAD_PRODUCTS, HIDE_LOADING, SHOW_LOADING, LOAD_PRODUCT, UPDATE_PRODUCT, DELETE_PRODUCT } from './actionTypes';
+import {SHOW_MESSAGES, 
+        LOAD_PRODUCTS, 
+        HIDE_LOADING, 
+        SHOW_LOADING, 
+        LOAD_PRODUCT, 
+        UPDATE_PRODUCT, 
+        DELETE_PRODUCT, 
+        CREATE_PRODUCT } from './actionTypes';
+
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
 
@@ -157,6 +165,61 @@ export const updateProduct = (productId, productForm, callback) => async dispatc
 
 export const createProduct = (productForm, callback) => async dispatch => {
 
+    try{
+
+        dispatch({
+            type: SHOW_LOADING
+        });
+
+        const newProduct = {
+            product: '',
+            upc: '',
+            descriptions: '',
+            cost: '',
+            price: '',
+            category: ''
+        }
+
+        convertFormToObject(productForm, newProduct);
+
+        console.log(newProduct);
+
+        const uri = `${InventoryBackendAPI}/products`;
+        const response = await axios.post(uri, newProduct);
+
+        dispatch({
+            type: CREATE_PRODUCT,
+            product: response.data
+        })
+
+        callback(response.data.id);
+
+        dispatch({
+            type: HIDE_LOADING
+        })
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages: ['Successfuly created product']
+        });
+
+
+    }catch(error){
+
+        
+        dispatch({
+            type: HIDE_LOADING
+        })
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'error',
+            messages: ['error creating product']
+        });
+
+        console.log(error.response);
+    }
 }
 
 export const deleteProduct = (productId, callback) => async dispatch => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const InventoryTitleControl = (props) => {
+const TitleControl = props => {
 
     const controls = props.buttons.map((control, i) => {
         return <button key={i} className='app-btn' onClick={control.action} >{ control.name }</button>
@@ -11,16 +11,15 @@ const InventoryTitleControl = (props) => {
         
         <div className='app-page__control app-page__control--3x2' >
                 <div className='control-group' >
-                    <h3>{props.title} 
+                    <h2>{props.title} 
                         <small> {props.action} </small>
-                    </h3>
+                    </h2>
                 </div>
                 <div className='control-group control-group--right'>
-                    { props.showButton? controls : '' }
+                    { controls }
                 </div>
         </div>
     )
 }
 
-
-export default InventoryTitleControl;
+export default TitleControl;

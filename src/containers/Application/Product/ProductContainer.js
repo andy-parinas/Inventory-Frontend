@@ -5,7 +5,7 @@ import PageTitle from '../../../components/PageTitle/PageTitle';
 import { QRCodeIcon } from '../../../components/UI/Icons';
 import ProductList from './product-list/ProductList';
 import ProductDetail from './product-detail/ProductDetail';
-
+import ProductNew from '../Product/product-new/ProductNew';
 
 
 class ProductContainer extends Component{
@@ -18,8 +18,8 @@ class ProductContainer extends Component{
                 </PageTitle>
                 <div className='app-page__content app-page__content--80 '>
                     <Switch>
-                        {/* <Route path='/inventories/new' component={InventoryNew} />
-                        <Route path='/inventories/:id/:action' component={InventoryDetail} /> */}
+                        {/* <Route path='/inventories/:id/:action' component={InventoryDetail} /> */}
+                        <Route path='/products/new' component={ProductNew} />
                         <Route path='/products/:id' component={ProductDetail} />
                         <Route path='/products' component={ProductList} />
                     </Switch>

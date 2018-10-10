@@ -72,7 +72,7 @@ class ProductList extends Component {
     renderProductsTable(){
         return(
             <div className='app-container'>
-                <ProductControl />
+                <ProductControl onNewProduct={() => this.props.history.push('/products/new')} />
                 <div className='app-row' >
                     <TableComponent
                         columns={columns} 

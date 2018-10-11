@@ -147,110 +147,67 @@ class InventoryForm extends Component {
     }
 
     componentDidMount() {
-
-        if(this.props.data){
-            this.setState({
-                    ...this.state,
-                    id: this.props.data.id,
-                    form: {
-                        ...this.state.form,
-                        product: {
-                            ...this.state.form.product,
-                            value: this.props.data.product,
-                            isValid: this.props.action === 'new'? false : true
-                        },
-                        quantity: {
-                            ...this.state.form.quantity,
-                            value: this.props.data.quantity,
-                            isValid: true
-                        },
-                        sku: {
-                            ...this.state.form.sku,
-                            value: this.props.data.sku,
-                            isValid: this.props.action === 'new'? false : true
-                        },
-                        thresholdCritical: {
-                            ...this.state.form.thresholdCritical,
-                            value: this.props.data.thresholdCritical,
-                            isValid: this.props.action === 'new'? false : true
-                        },
-                        thresholdWarning: {
-                            ...this.state.form.thresholdWarning,
-                            value: this.props.data.thresholdWarning,
-                            isValid: this.props.action === 'new'? false : true
-                        },
-                        status: {
-                            ...this.state.form.status,
-                            value: this.props.data.status,
-                            isValid: true
-                        },
-                        location: {
-                            ...this.state.form.location,
-                            value: this.props.data.location,
-                            isValid: this.props.action === 'new'? false : true
-                        }   
-                    }
-                })
-        }
        
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
 
-        if(nextProps.updateContent || nextProps.data.id !== prevState.id  
-            || nextProps.data.status !== prevState.form.status.value 
-            || nextProps.data.quantity !== prevState.form.quantity.value){
+        if(nextProps.data){
+            if(nextProps.updateContent || nextProps.data.id !== prevState.id  
+                || nextProps.data.status !== prevState.form.status.value 
+                || nextProps.data.quantity !== prevState.form.quantity.value){
 
-            return {
-                ...prevState,
-                id: nextProps.data.id,
-                form: {
-                    ...prevState.form,
-                    product: {
-                        ...prevState.form.product,
-                        value: nextProps.data.product,
-                        errorMessages: [],
-                        isValid: true
-                    },
-                    sku: {
-                        ...prevState.form.sku,
-                        value: nextProps.data.sku,
-                        errorMessages: [],
-                        isValid: true
-                    },
-                    quantity: {
-                        ...prevState.form.quantity,
-                        value: nextProps.data.quantity,
-                        errorMessages: [],
-                        isValid: true
-                    },
-                    thresholdCritical: {
-                        ...prevState.form.thresholdCritical,
-                        value: nextProps.data.thresholdCritical,
-                        errorMessages: [],
-                        isValid: true
-                    },
-                    thresholdWarning: {
-                        ...prevState.form.thresholdWarning,
-                        value: nextProps.data.thresholdWarning,
-                        errorMessages: [],
-                        isValid: true
-                    },
-                    status: {
-                        ...prevState.form.status,
-                        value: nextProps.data.status,
-                        errorMessages: [],
-                        isValid: true
-                    },
-                    location: {
-                        ...prevState.form.location,
-                        value: nextProps.data.location,
-                        errorMessages: [],
-                        isValid: true
-                    }      
+                return {
+                    ...prevState,
+                    id: nextProps.data.id,
+                    form: {
+                        ...prevState.form,
+                        product: {
+                            ...prevState.form.product,
+                            value: nextProps.data.product,
+                            errorMessages: [],
+                            isValid: true
+                        },
+                        sku: {
+                            ...prevState.form.sku,
+                            value: nextProps.data.sku,
+                            errorMessages: [],
+                            isValid: true
+                        },
+                        quantity: {
+                            ...prevState.form.quantity,
+                            value: nextProps.data.quantity,
+                            errorMessages: [],
+                            isValid: true
+                        },
+                        thresholdCritical: {
+                            ...prevState.form.thresholdCritical,
+                            value: nextProps.data.thresholdCritical,
+                            errorMessages: [],
+                            isValid: true
+                        },
+                        thresholdWarning: {
+                            ...prevState.form.thresholdWarning,
+                            value: nextProps.data.thresholdWarning,
+                            errorMessages: [],
+                            isValid: true
+                        },
+                        status: {
+                            ...prevState.form.status,
+                            value: nextProps.data.status,
+                            errorMessages: [],
+                            isValid: true
+                        },
+                        location: {
+                            ...prevState.form.location,
+                            value: nextProps.data.location,
+                            errorMessages: [],
+                            isValid: true
+                        }      
+                    }
                 }
+                
             }
-            
         }
 
         return null;

@@ -12,7 +12,9 @@ export {
     loadInventories,
     loadInventory,
     updateInventory,
-    deleteInventory
+    deleteInventory,
+    loadStatusOptions,
+    resetInventories
 } from './inventories';
 
 

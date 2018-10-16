@@ -6,12 +6,14 @@ import {LOAD_INVENTORIES,
     UPDATE_INVENTORY,
     DELETE_INVENTORY, 
     SHOW_LOADING, 
-    HIDE_LOADING} from './actionTypes';
+    HIDE_LOADING,
+    LOAD_STATUS_OPTIONS,
+    RESET_INVENTORIES} from './actionTypes';
 
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
 
-export const loadInventories = (pageNumber: number = 1, sort, callback) => async dispatch => {
+export const loadInventories = (pageNumber: number = 1, sort, search, callback) => async dispatch => {
 
     try {
 
@@ -28,8 +30,20 @@ export const loadInventories = (pageNumber: number = 1, sort, callback) => async
                 uri = uri + `&orderBy=${sort.column}&direction=ASC`
             }else{
                 uri = uri + `&orderBy=${sort.column}&direction=DESC`
-            }           
+            }
+            
+            if(search){
+                uri = uri + `&${search}`;
+            }
+    
+        }else {
+            if(search){
+                uri = uri + `?${search}`;
+            }
         }
+
+       
+        console.log(uri);
 
         const response = await axios.get(uri);
 
@@ -176,3 +190,34 @@ export const deleteInventory = (inventoryId, callback) => async dispatch => {
     }
 
 }
+
+export const loadStatusOptions = () => async dispatch => {
+
+    try{
+
+        const uri = `${InventoryBackendAPI}/inventories/statuses`;
+        const response = await axios.get(uri);
+
+        dispatch({
+            type: LOAD_STATUS_OPTIONS,
+            statusOptions: response.data
+        })
+
+    }catch(error){
+
+        console.log('Error Loading Status Options', error.response || error);
+    }
+
+
+}
+
+
+export const resetInventories = (callback) => async dispatch => {
+   dispatch({
+       type: RESET_INVENTORIES
+   })
+
+   if(callback){
+       callback();
+   }
+} 

@@ -29,7 +29,7 @@ class InventoryList extends Component {
 
     componentDidMount() {
         
-       this.props.loadInventories(1, this.state.sort, null)
+       this.props.loadInventories(1, this.state.sort, null, null)
     }
 
 
@@ -40,7 +40,7 @@ class InventoryList extends Component {
     pageChangedHandler = (pageNumber: number = 1) => {
 
         if(pageNumber >= 1 && pageNumber <= this.props.pagination.totalPages){
-            this.props.loadInventories(pageNumber, this.state.sort, null);
+            this.props.loadInventories(pageNumber, this.state.sort, null, null);
         }
         
     }
@@ -54,7 +54,7 @@ class InventoryList extends Component {
 
         const pageNumber = this.props.pagination.pageNumber
 
-        this.props.loadInventories(pageNumber, sort, () => {
+        this.props.loadInventories(pageNumber, sort, null, () => {
             this.setState(prevState => {
                 return {
                     ...this.state,
@@ -70,7 +70,8 @@ class InventoryList extends Component {
 
         return (
             <div className='app-container'>
-                <InventoryControl onClickNew={this.newInventoryHandler} />
+                <InventoryControl onClickNew={this.newInventoryHandler} 
+                    onAdvanceSearch={() => this.props.history.push('/inventories/search')} />
                 <div className='app-row' >
                     <TableComponent
                         columns={columns} 
@@ -101,7 +102,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        loadInventories: (pageNumber, sort, callback) => dispatch(loadInventories(pageNumber, sort, callback))
+        loadInventories: (pageNumber, sort, search, callback) => dispatch(loadInventories(pageNumber, sort, search, callback))
     }
 }
 

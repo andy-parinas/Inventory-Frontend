@@ -1,9 +1,10 @@
-import {LOAD_INVENTORIES, LOAD_INVENTORY, UPDATE_INVENTORY, DELETE_INVENTORY} from '../actions/actionTypes';
+import {LOAD_INVENTORIES, LOAD_INVENTORY, UPDATE_INVENTORY, DELETE_INVENTORY, LOAD_STATUS_OPTIONS, RESET_INVENTORIES} from '../actions/actionTypes';
 
 const initialState = {
     inventories: [],
     pagination: null,
-    inventory: null
+    inventory: null,
+    statusOptions: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -33,6 +34,19 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 inventory: null
+            }
+
+        case LOAD_STATUS_OPTIONS:
+            return {
+                ...state,
+                statusOptions: action.statusOptions
+            }
+
+        case RESET_INVENTORIES:
+            return {
+                ...state,
+                inventories: [],
+                pagination: null,
             }
 
         default:

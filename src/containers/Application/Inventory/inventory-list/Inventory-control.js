@@ -13,7 +13,7 @@ class InventoryControl extends Component {
                         <label  className='app-form__label' htmlFor='search'>Search Inventories</label>
                         <input className='app-form__input app-form__input--flex' type='text'></input>
                         <button className='app-btn'>Search</button>
-                        <button className='app-btn'>Advance Search</button>
+                        <button className='app-btn' onClick={this.props.onAdvanceSearch} >Advance Search</button>
                     </div>
                     <div className='control-group control-group--right'>
                         <button onClick={this.props.onClickNew} 

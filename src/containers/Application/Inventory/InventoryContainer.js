@@ -6,6 +6,7 @@ import {ClipboardIcon} from '../../../components/UI/Icons';
 import InventoryList from './inventory-list/InventoryList';
 import InventoryDetail from './inventory-detail/InventoryDetail';
 import InventoryNew from './inventory-new/InventoryNew';
+import InventorySearch from './inventory-search/InventorySearch';
 
 class InventoryContainer extends Component {
 
@@ -19,6 +20,7 @@ class InventoryContainer extends Component {
                 <div className='app-page__content app-page__content--80 '>
                     <Switch>
                         <Route path='/inventories/new' component={InventoryNew} />
+                        <Route path='/inventories/search' component={InventorySearch} />
                         <Route path='/inventories/:id/:action' component={InventoryDetail} />
                         <Route path='/inventories/:id' component={InventoryDetail} />
                         <Route path='/inventories' component={InventoryList} />

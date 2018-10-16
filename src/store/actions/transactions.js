@@ -114,7 +114,11 @@ export const createTransaction = (inventoryId, transactionForm, callback) => asy
         dispatch({
             type: SHOW_MESSAGES,
             messageType: 'error',
-            messages: ['Error creating transaction']
+            messages: error.response? error.response.data.error : ['Unknown Error Encountered']
+        })
+
+        dispatch({
+            type: HIDE_LOADING
         })
 
     }
@@ -170,7 +174,7 @@ export const updateTransaction = (inventoryId, transactionId, transactionForm, c
         dispatch({
             type: SHOW_MESSAGES,
             messageType: 'error',
-            messages: ['Error updating transaction']
+            messages: error.response? error.response.data.error : ['Unknown Error Encountered']
         })
 
         dispatch({
@@ -221,7 +225,7 @@ export const deleteTransction = (transactionId, callback) => async dispatch => {
         dispatch({
             type: SHOW_MESSAGES,
             messageType: 'error',
-            messages: ['Error deleting transaction']
+            messages: error.response? error.response.data.error : ['Unknown Error Encountered']
         })
 
     }

@@ -9,6 +9,8 @@ export const LOAD_INVENTORIES = 'load_inventories';
 export const UPDATE_INVENTORY = 'update_inventory';
 export const CREATE_INVENTORY = 'create_inventory';
 export const DELETE_INVENTORY = 'delete_inventory';
+export const LOAD_STATUS_OPTIONS = 'load_status_options';
+export const RESET_INVENTORIES = 'reset_inventories';
 
 export const LOAD_TRANSACTIONS = 'load_transactions';
 export const LOAD_TRANSACTION = 'load_transaction';

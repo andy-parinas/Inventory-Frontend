@@ -1,0 +1,15 @@
+.app-filter{
+
+    transition: all 0.2sec;
+
+    &--false{
+        transform: scaleY(0);
+        height: 0;
+        // visibility: hidden;
+    }
+
+    &--true {
+        transform: scaleY(1);
+        height: 100%;
+    }
+}

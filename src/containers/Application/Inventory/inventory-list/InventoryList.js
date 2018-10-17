@@ -5,8 +5,9 @@ import {loadInventories} from '../../../../store/actions';
 import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
+import InventoryFilter from './InventoryFilter';
 import withLoading from '../../../../hoc/withLoading';
-
+import {ToggleDownIcon, ToggleUpIcon} from '../../../../components/UI/Icons';
 
 const columns = [
     {name: 'Location', value:'location', sortable: true},
@@ -24,7 +25,8 @@ class InventoryList extends Component {
         sort: {
             column: 'location',
             asc: true
-        }
+        },
+        showFilter: false
     }
 
     componentDidMount() {
@@ -66,12 +68,31 @@ class InventoryList extends Component {
         })
     }
 
+    toggleFilterHandler = () => {
+        this.setState(prevState => {
+           return {
+               ...prevState,
+               showFilter: !prevState.showFilter
+           }
+        })
+    }
+
     renderInventoriestable(){
+
+        const toggleIcon = this.state.showFilter?  <ToggleUpIcon className='simple-link__icon'/> : <ToggleDownIcon className='simple-link__icon'/>
 
         return (
             <div className='app-container'>
-                <InventoryControl onClickNew={this.newInventoryHandler} 
-                    onAdvanceSearch={() => this.props.history.push('/inventories/search')} />
+                <div className='app-toggle'>
+                    <a className='simple-link' onClick={this.toggleFilterHandler} >
+                        Filter Inventories
+                    </a>
+                    {toggleIcon}
+                </div>
+                <hr />
+                <div className={`app-filter app-filter--${this.state.showFilter}`}>
+                    <InventoryFilter />
+                </div>
                 <div className='app-row' >
                     <TableComponent
                         columns={columns} 

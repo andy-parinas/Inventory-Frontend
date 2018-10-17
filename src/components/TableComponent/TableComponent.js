@@ -9,9 +9,9 @@ const TableCell = (props) => {
         if(column.value === 'actions'){
             
             return  <td className='app-table__data app-table__actions' key={i}> 
-                        <Link to={{pathname: `${props.match.url}/${props.data['id']}`, state: {action: 'details'}}} className='app-table__link'>View </Link> |
-                        <Link to={{pathname: `${props.match.url}/${props.data['id']}` , state: {action: 'edit'}} } className='app-table__link'>Edit </Link> |
-                        <Link to={{pathname: `${props.match.url}/${props.data['id']}`,  state: {action: 'delete'}}} className='app-table__link'>Delete </Link>
+                        <Link to={{pathname: `${props.actionLink}/${props.data['id']}`, state: {action: 'details'}}} className='app-table__link'>View </Link> |
+                        <Link to={{pathname: `${props.actionLink}/${props.data['id']}` , state: {action: 'edit'}} } className='app-table__link'>Edit </Link> |
+                        <Link to={{pathname: `${props.actionLink}/${props.data['id']}`,  state: {action: 'delete'}}} className='app-table__link'>Delete </Link>
                     </td>
         }else {
 
@@ -35,7 +35,10 @@ const TableData = (props) => {
 
     const rows = props.data.map((row, i) => {
         return  <tr className='app-table__row' key={i} >
-                    <TableCell columns={props.columns} data={row} match={props.match} />
+                    <TableCell 
+                        columns={props.columns} 
+                        data={row} 
+                        match={props.match} actionLink={props.actionLink} />
                 </tr>
     })
 
@@ -86,7 +89,10 @@ class TableComponent extends Component {
         return(
             <table className='app-table app-table--bordered'>
                 <TableHeader columns={this.props.columns} sort={this.props.sort} onSort={this.props.onSort} />
-                <TableData columns={this.props.columns} data={this.props.data} match={this.props.match} />
+                <TableData 
+                    columns={this.props.columns} 
+                    data={this.props.data} 
+                    match={this.props.match} actionLink={this.props.actionLink} />
             </table>
         )
     }

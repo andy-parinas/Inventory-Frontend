@@ -10,11 +10,10 @@ const TransactionContainer = (props) => {
         <div className='app-row'>
             <div className='app-col app-col--80'>
             <hr />
-                <Switch>
-                    <Route path='/inventories/:id/transactions/new' component={TransactionNew} />
-                    <Route path='/inventories/:id/:transId/:transAction' component={TransactionDetail} />
-                    <Route path='/inventories/:id/:transId' component={TransactionDetail} />
-                    <Route path='/inventories/:id' component={TransactionList} />    
+                <Switch>  
+                    <Route path='/inventories/show/:id/transactions/new' component={TransactionNew} />
+                    <Route path='/inventories/show/:id/:transId' component={TransactionDetail} />
+                    <Route path='/inventories/show/:id' component={TransactionList} />    
                 </Switch>
             </div>
         </div>

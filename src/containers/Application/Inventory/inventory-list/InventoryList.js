@@ -78,6 +78,7 @@ class InventoryList extends Component {
                         data={this.props.inventories} 
                         sort={this.state.sort}
                         onSort={this.inventorySortedHandler}
+                        actionLink='/inventories/show'
                         match={this.props.match} />
                 </div>
                 <TablePageControl pagination={this.props.pagination} onPageChanged={this.pageChangedHandler} />

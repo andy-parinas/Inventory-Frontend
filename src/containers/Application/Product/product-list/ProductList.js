@@ -79,6 +79,7 @@ class ProductList extends Component {
                         data={this.props.products}
                         sort={this.state.sort}
                         onSort={this.productsSortedHandler}
+                        actionLink='/products/show'
                         match={this.props.match} />
                 </div>
                 <TablePageControl pagination={this.props.pagination} onPageChanged={this.pageChangedHandler} />

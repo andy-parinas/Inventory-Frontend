@@ -6,7 +6,6 @@ import {loadTransactions} from '../../../../store/actions/index';
 
 import {InventoryBackendAPI} from '../../../../AppSettings';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
-// import LoadingComponent from '../../../../components/UI/LoadingComponent';
 import InventoryTitleControl from '../InventoryTitleControl';
 
 
@@ -69,7 +68,8 @@ class TransactionList extends Component {
                                         buttons={titleButtons} 
                                         showButton={true} />
                                     <TableComponent columns={columns} 
-                                            data={this.props.transactions} 
+                                            data={this.props.transactions}
+                                            actionLink={this.props.match.url}
                                             match={this.props.match} />
                                 </Fragment>
 

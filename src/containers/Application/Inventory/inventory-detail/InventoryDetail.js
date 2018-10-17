@@ -101,7 +101,7 @@ class InventoryDetail extends Component {
     renderDetails = () => {
         const titleButtons = [
             {name: 'New Inventory', action: ()=> this.props.history.push('/inventories/new')},
-            {name: '< Go Back', action: () => this.props.history.push('/inventories') }
+            {name: '< Go Back', action: () => this.props.history.goBack() }
         ]
 
         let transaction = <TransactionContainer />; 

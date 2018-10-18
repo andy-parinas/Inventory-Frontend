@@ -5,7 +5,6 @@ import {loadInventories, resetInventories} from '../../../../store/actions'
 import InventorySearchControl from './InventorySearchControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
-import { InventoryBackendAPI } from '../../../../AppSettings';
 
 const columns = [
     {name: 'Location', value:'location', sortable: true},

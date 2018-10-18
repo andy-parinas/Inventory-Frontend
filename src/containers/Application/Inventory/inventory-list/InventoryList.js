@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {loadInventories} from '../../../../store/actions';
-import InventoryControl from './Inventory-control';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
 import TableComponent from '../../../../components/TableComponent/TableComponent';
 import InventoryFilter from './InventoryFilter';
@@ -30,8 +29,18 @@ class InventoryList extends Component {
     }
 
     componentDidMount() {
-        
-       this.props.loadInventories(1, this.state.sort, null, null)
+        if(this.props.inventories.length === 0){
+            this.props.loadInventories(1, this.state.sort, null, null);
+        }
+
+        if(this.props.sort){
+            this.setState({
+                ...this.state,
+                sort: {
+                    ...this.props.sort
+                }
+            })
+        }
     }
 
 
@@ -49,6 +58,8 @@ class InventoryList extends Component {
 
     inventorySortedHandler = (columnName) => {
 
+        const filter = this.props.filter
+
         const sort = {
             column: columnName,
             asc: columnName === this.state.sort.column? !this.state.sort.asc : true
@@ -56,7 +67,7 @@ class InventoryList extends Component {
 
         const pageNumber = this.props.pagination.pageNumber
 
-        this.props.loadInventories(pageNumber, sort, null, () => {
+        this.props.loadInventories(pageNumber, sort, filter, () => {
             this.setState(prevState => {
                 return {
                     ...this.state,
@@ -77,6 +88,14 @@ class InventoryList extends Component {
         })
     }
 
+    filterInventoriesHandler = (filter) => {
+        this.props.loadInventories(1, this.state.sort, filter, null)
+    }
+
+    clearFilterHandler = () => {
+        this.props.loadInventories(1, this.state.sort, null, null)
+    }
+
     renderInventoriestable(){
 
         const toggleIcon = this.state.showFilter?  <ToggleUpIcon className='simple-link__icon'/> : <ToggleDownIcon className='simple-link__icon'/>
@@ -91,7 +110,9 @@ class InventoryList extends Component {
                 </div>
                 <hr />
                 <div className={`app-filter app-filter--${this.state.showFilter}`}>
-                    <InventoryFilter />
+                    <InventoryFilter 
+                        onFilterInventories={this.filterInventoriesHandler} 
+                        onClearFilter={this.clearFilterHandler} />
                 </div>
                 <div className='app-row' >
                     <TableComponent
@@ -118,7 +139,9 @@ class InventoryList extends Component {
 const mapStateToProps = state => {
     return {
         inventories: state.inventories.inventories,
-        pagination: state.inventories.pagination
+        pagination: state.inventories.pagination,
+        filter: state.inventories.filter,
+        sort: state.inventories.sort
     }
 }
 

@@ -33,3 +33,9 @@ export {
     deleteProduct,
     createProduct
 } from './products';
+
+
+export {
+    loadLocations,
+    loadLocation
+}from './locations';

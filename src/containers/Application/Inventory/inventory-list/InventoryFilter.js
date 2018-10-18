@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
+import {loadStatusOptions, loadInventories} from '../../../../store/actions';
 
 class InventoryFilter extends Component {
 
@@ -12,11 +14,62 @@ class InventoryFilter extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.onLoadStatusOptions();
+
+        if(this.props.filter !== null){
+
+            this.setState({
+                ...this.state,
+                form: {
+                    ...this.props.filter
+                }
+            })
+        }
+    }
+
+    inputChangeHandler = (event) => {
+       
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({
+            ...this.state,
+            form: {
+                ...this.state.form,
+                [name]: value
+            }
+        })
+
+    }
+
+    searchInventoriesHandler = () => {
+        const filter = {
+            ...this.state.form
+        }
+
+        this.props.onFilterInventories(filter);
+    }
+
+    clearFilterHandler = () => {
+        this.setState({
+            ...this.state,
+            form: {
+                status: 0,
+                location: '',
+                product: '',
+                sku: ''
+            }
+        })
+
+        this.props.onClearFilter();
+        
+    }
+
     render(){
-        // const options = this.props.statusOptions.map(option => {
-        //     return <option key={option.id} value={option.id} >{ option.status }</option>
-        // })
-        const options = [];
+        const options = this.props.statusOptions.map(option => {
+            return <option key={option.id} value={option.id} >{ option.status }</option>
+        })
 
         return(
             <div className='app-row ' >
@@ -62,8 +115,10 @@ class InventoryFilter extends Component {
 
                     </div>
                     <div className='control-group control-group--right'>
-                        <button onClick={this.props.onClickNew} 
-                            className='app-btn' >Search</button>
+                        <button className='app-btn' 
+                            onClick={this.searchInventoriesHandler} >Search</button>
+                        <button className='app-btn' 
+                            onClick={this.clearFilterHandler} >Clear Filter</button>
                     </div>
                </div>
            </div>
@@ -71,4 +126,21 @@ class InventoryFilter extends Component {
     }
 }
 
-export default InventoryFilter;
+
+const mapStateToProps = state => {
+
+    return{
+        statusOptions: state.inventories.statusOptions,
+        filter: state.inventories.filter
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoadStatusOptions: () => dispatch(loadStatusOptions()),
+        onLoadInventories: (pageNumber, sort, filter, callback) => dispatch(loadInventories(pageNumber, sort, filter, callback))
+    }
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InventoryFilter);

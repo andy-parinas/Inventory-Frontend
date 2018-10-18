@@ -1,0 +1,52 @@
+.app-table-editable {
+
+    table-layout:fixed;
+    width:100%;
+    border-collapse: collapse;
+
+    &__header{
+        border: 1px solid #000000;
+        padding: 8px;
+        padding: 5px 1rem;
+
+        text-align: left;
+        font-size: 1.3rem;
+        letter-spacing: 0.5px;
+        font-family: "Lato", sans-serif;
+        background-color:#c6c6c6;
+    }
+
+    &__header-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+    &__data{
+        padding: 5px 1rem;
+        font-size: 1.2rem;
+        font-family: "Lato", sans-serif;
+        border: 1px solid #333333;
+    }
+
+}
+
+.app-table-input {
+    width: 100%;
+    padding: 5px;
+    
+    // border: 1px solid #cccccc;
+    border: none;
+    // border-radius: 5px;
+    transition: all 0.3s;
+
+    &:focus{
+        outline: none;
+        box-shadow: 0 0 5px rgba(10, 10, 10, 1);
+        border: 1px solid rgba(10, 10, 10, 1);
+      }
+}

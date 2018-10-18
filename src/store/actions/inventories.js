@@ -8,12 +8,13 @@ import {LOAD_INVENTORIES,
     SHOW_LOADING, 
     HIDE_LOADING,
     LOAD_STATUS_OPTIONS,
-    RESET_INVENTORIES} from './actionTypes';
+    SET_INVENTORIES_FILTER,
+    CLEAR_INVENTORIES_FILTER} from './actionTypes';
 
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
 
-export const loadInventories = (pageNumber: number = 1, sort, search, callback) => async dispatch => {
+export const loadInventories = (pageNumber: number = 1, sort, filter, callback) => async dispatch => {
 
     try {
 
@@ -22,35 +23,49 @@ export const loadInventories = (pageNumber: number = 1, sort, search, callback) 
         })
         
         let uri = `${InventoryBackendAPI}/inventories?pageNumber=${pageNumber}`;
+        let filterParams = ''
 
-        
 
-        if(sort){
-            if(sort.asc){
-                uri = uri + `&orderBy=${sort.column}&direction=ASC`
-            }else{
-                uri = uri + `&orderBy=${sort.column}&direction=DESC`
-            }
-            
-            if(search){
-                uri = uri + `&${search}`;
-            }
-    
-        }else {
-            if(search){
-                uri = uri + `?${search}`;
-            }
+        for(const property in filter){
+            const safeValue = encodeURIComponent(filter[property]);
+            filterParams = filterParams + `${property}=${safeValue}&`
         }
 
-       
-        console.log(uri);
+      
+        if(sort.asc){
+            uri = uri + `&orderBy=${sort.column}&direction=ASC`
+        }else{
+            uri = uri + `&orderBy=${sort.column}&direction=DESC`
+        }
+
+        if(filter){
+            uri = uri + `&${filterParams}`;
+
+            //If there is a search parameter, then the filter was used.
+            //Dispatch the Setting of the Filter in the Reducer.
+            dispatch({
+                type: SET_INVENTORIES_FILTER,
+                filter: filter
+            })
+
+        }else{
+
+            //No Filters was set, either the component that calls the action was just refreshed or
+            //the filters was cleared. Dispatch the reducer that will clear the filter.
+            dispatch({
+                type: CLEAR_INVENTORIES_FILTER
+            })
+
+        }
+
 
         const response = await axios.get(uri);
 
         dispatch({
             type: LOAD_INVENTORIES,
             inventories: response.data,
-            pagination: JSON.parse(response.headers.pagination)
+            pagination: JSON.parse(response.headers.pagination),
+            sort: sort
         })
 
 
@@ -212,12 +227,3 @@ export const loadStatusOptions = () => async dispatch => {
 }
 
 
-export const resetInventories = (callback) => async dispatch => {
-   dispatch({
-       type: RESET_INVENTORIES
-   })
-
-   if(callback){
-       callback();
-   }
-} 

@@ -1,8 +1,7 @@
 import React, {Component, Fragment} from 'react';
-import {NavLink, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import PageTitle from '../../../components/PageTitle/PageTitle';
-import WidgetSection from './WidgetSection';
 import {SphereIcon} from '../../../components/UI/Icons';
 import LinkMenu from '../../../components/UI/LinkMenu';
 
@@ -30,12 +29,7 @@ class DashboardContainer extends Component {
                                         <Link to='/inventories/new' className='dashboard-section__link'href="">Create New Inventory</Link>
                                         <Link to='/inventories/reports' className='dashboard-section__link'href="">Create Inventory Report</Link>
                                         <Link to='/inventories' className='dashboard-section__link'href="">List All Inventory</Link>
-                                        <Link to='/inventories' className='dashboard-section__link'href="">List Critical Level Inventories</Link>
-                                        <Link to='/inventories' className='dashboard-section__link'href="">List Warning Level Inventories</Link>
-                                        <Link to='/inventories' className='dashboard-section__link'href="">List No Stock Level Inventories</Link>
-                                        <Link to='/inventories' className='dashboard-section__link'href="">List Deleted Inventories</Link>
                                         <Link to='/inventories/locations' className='dashboard-section__link'href="">Manage Inventory Locations</Link>
-                                        <Link to='/inventories/search' className='dashboard-section__link'href="">Search Inventories</Link>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +42,6 @@ class DashboardContainer extends Component {
                                         <Link to='/products' className='dashboard-section__link'href="">List All Products</Link>
                                         <Link to='/products' className='dashboard-section__link'href="">List Deleted Products</Link>
                                         <Link to='/products/categories' className='dashboard-section__link'href="">Manage Product Categories</Link>
-                                        <Link to='/products/search' className='dashboard-section__link'href="">Search Products</Link>
                                     </div>
                                 </div>
                             </div>

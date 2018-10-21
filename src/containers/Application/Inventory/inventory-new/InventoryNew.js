@@ -99,6 +99,7 @@ class InventoryNew extends Component {
         return(
             <div className='app-row' >
             <div className='app-col app-col--80'>
+                <h2>Create New Inventory</h2>
                 <InventoryForm  action={this.state.action}
                                 onSave={this.saveInventoryHandler}
                                 onCancel={() => this.props.history.goBack()} 

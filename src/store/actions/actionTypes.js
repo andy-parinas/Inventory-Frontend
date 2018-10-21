@@ -28,7 +28,7 @@ export const DELETE_PRODUCT = 'delete_product';
 
 export const LOAD_LOCATIONS = 'load_locations';
 export const LOAD_LOCATION = 'load_location';
-
+export const LOAD_LOCATION_TYPES = 'load_location_types';
 
 
 

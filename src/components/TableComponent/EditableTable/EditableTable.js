@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {SortAmountAsc, SortAmountDesc} from '../../../components/UI/Icons';
 import EditableTableCell from './EditableTableCell';
 
 class TableCell extends Component {
 
     updateHandler = (property, value) => {
+
         this.props.onUpdate(this.props.data.id, property, value);
     }
 
@@ -13,7 +14,7 @@ class TableCell extends Component {
         const cells = this.props.columns.map((column, i) => {
 
             return <EditableTableCell key={i}
-                        name={column.value} 
+                        column={column}
                         value={this.props.data[column.value]} 
                         inputType={column.inputType} onUpdate={this.updateHandler} />
         })
@@ -27,13 +28,16 @@ class TableCell extends Component {
 
 const TableData = (props) => {
 
+    console.log(props.data);
     const rows = props.data.map((row,i) => {
+
         return  <tr className='app-table-editable__row' key={i} >
                     <TableCell 
                         columns={props.columns} 
                         data={row} onUpdate={props.onUpdate} />
                 </tr>
     })
+
 
     return(
         <tbody className='app-table-editable__body' >
@@ -58,7 +62,7 @@ const TableHeader = (props) => {
     const columns = props.columns.map(column => {
         return  (
             <th className='app-table-editable__header' key={Math.random()}>
-                <div className='app-table-editable__header-title'>
+                <div className='app-table-editable__header-title'  onClick={() => props.onSort(column.value)} >
                     <span className='app-table-editable__header-text'>{ column.name }</span>
                     { props.sort? props.sort.column === column.value? sortIcon : '' : ''}
                 </div>
@@ -78,13 +82,12 @@ const TableHeader = (props) => {
 
 class EditableTable extends Component {
 
-
-
+  
     render(){
-
+        console.log(this.props.data);
         return(
             <table className='app-table-editable'>
-                <TableHeader columns={this.props.columns} />
+                <TableHeader columns={this.props.columns} sort={this.props.sort} onSort={this.props.onSort} />
                 <TableData 
                     columns={this.props.columns} 
                     data={this.props.data} onUpdate={this.props.onUpdate} />

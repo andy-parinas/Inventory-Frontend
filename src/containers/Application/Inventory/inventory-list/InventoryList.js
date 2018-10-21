@@ -102,13 +102,15 @@ class InventoryList extends Component {
 
         return (
             <div className='app-container'>
+                <h2>Inventories Table</h2>
+                <hr />
                 <div className='app-toggle'>
                     <a className='simple-link' onClick={this.toggleFilterHandler} >
                         Filter Inventories
                     </a>
                     {toggleIcon}
                 </div>
-                <hr />
+                {/* <hr /> */}
                 <div className={`app-filter app-filter--${this.state.showFilter}`}>
                     <InventoryFilter 
                         onFilterInventories={this.filterInventoriesHandler} 

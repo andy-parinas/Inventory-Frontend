@@ -117,8 +117,9 @@ class InventoryDetail extends Component {
                 <div className='app-row' >                
                     <div className='app-col app-col--80'>
 
-                        <TitleControl  title='Inventory' action={this.state.action}
-                                buttons={titleButtons} showButton={showButton} />
+                        {/* <TitleControl  title='Inventory' action={this.state.action}
+                                buttons={titleButtons} showButton={showButton} /> */}
+                        <h2>Inventory <small>{this.state.action}</small> </h2>
 
                         <InventoryForm  
                             action={this.state.action} 

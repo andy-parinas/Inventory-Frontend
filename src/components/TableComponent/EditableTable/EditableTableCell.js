@@ -4,7 +4,8 @@ import React, {Component} from 'react';
 class EditableTableCell extends Component {
 
     state={
-        inputValue: ''
+        inputValue: '',
+        isDirty: false
     }
 
 
@@ -15,16 +16,36 @@ class EditableTableCell extends Component {
         })
     }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        
+        if(prevState.inputValue !== nextProps.value && !prevState.isDirty){
+            return{
+                ...prevState,
+                inputValue: nextProps.value
+            }
+        }
+
+        return null;
+    }
+
     inputChangeHandler = (event) => {
         const value = event.target.value;
         this.setState({
             ...this.state,
-            inputValue: value
+            inputValue: value,
+            isDirty: true
         })
     }
 
     updateHandler = () => {
-        this.props.onUpdate(this.props.name, this.state.inputValue);
+
+        if(this.state.isDirty) {
+            this.props.onUpdate(this.props.column.value, this.state.inputValue);
+            this.setState({
+                ...this.state,
+                isDirty: false
+            })
+        }
     }
 
     render() {
@@ -33,7 +54,7 @@ class EditableTableCell extends Component {
 
         if(this.props.inputType === 'text'){
             cell = <input
-                     name={this.props.name}
+                     name={this.props.column.value}
                      className='app-table-input' 
                      type='text' 
                      value={this.state.inputValue} 
@@ -41,7 +62,17 @@ class EditableTableCell extends Component {
          }
  
          if(this.props.inputType === 'select'){
- 
+            const options = this.props.column.options.map(option => {
+                return <option key={option.id} value={option.id} >{ option.name }</option>
+            })
+        
+            cell =  <select className='app-table-select'
+                            name={this.props.column.value}
+                            value={this.state.inputValue} 
+                            onChange={this.inputChangeHandler} 
+                            onBlur={this.updateHandler} >
+                        {options}
+                    </select>
          }
 
         return <td className='app-table-editable__data'> { cell } </td>

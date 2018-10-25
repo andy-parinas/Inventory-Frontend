@@ -12,7 +12,7 @@ class NewEntryRow extends Component {
                 if(column.inputType === 'select'){
                      this.setState({
                         ...this.state,
-                        [column.value]: column.options.length > 0 ? column.option[0].id : 1
+                        [column.value]: column.options.length > 0 ? column.option[0].id : 0
                     })
                 }else {
                     this.setState({
@@ -24,6 +24,28 @@ class NewEntryRow extends Component {
                
             }
         })
+    }
+
+
+    static getDerivedStateFromProps(nextProps, prevState){
+
+        nextProps.columns.map(column => {
+
+            if(column.inputType === 'select'){
+
+                if(prevState[column.value] === 0 && ){
+                    return {
+                        ...prevState,
+                        [column.value]: column
+                    }
+                }
+
+            }
+
+
+        })
+
+
     }
 
     inputChangeHandler = (event) => {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {loadLocations, loadLocationTypes} from '../../../../store/actions';
+import {loadLocations, loadLocationTypes, createLocation} from '../../../../store/actions';
 import EditableTable from '../../../../components/TableComponent/EditableTable/EditableTable';
 import LocationSearchControl from './LocationSearchControl';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
@@ -17,8 +17,11 @@ class InventoryLocation extends Component {
     }
 
     componentDidMount(){
-        this.props.onLoadLocations();
 
+        if(this.props.locations.length === 0){
+            this.props.onLoadLocations();
+        }
+        
         if(this.props.locationTypes.length === 0 ){
             this.props.onLoadLocationTypes();
         }
@@ -27,6 +30,10 @@ class InventoryLocation extends Component {
 
     updateLocationHandler = (id, property, value) => {
         console.log(id, property, value)
+    }
+
+    createLocationHandler = (location, callback) => {
+        this.props.onCreateLocation(location, callback);
     }
 
     pageChangedHandler = (pageNumber: number = 1) => {
@@ -56,6 +63,8 @@ class InventoryLocation extends Component {
 
     }
 
+
+
     render(){
 
         // console.log(this.props.locations)
@@ -63,7 +72,8 @@ class InventoryLocation extends Component {
             {name: 'Location', value:'name', sortable: true, inputType: 'text'},
             {name: 'Address', value:'address', sortable: true, inputType: 'text'},
             {name: 'Phone', value:'phone', sortable: true, inputType: 'text'},
-            {name: 'Location Type', value:'locationTypeId', sortable: true, inputType: 'select', options: this.props.locationTypes}
+            {name: 'Location Type', value:'locationTypeId', sortable: true, inputType: 'select', options: this.props.locationTypes},
+            {name: '', value:'actions', inputType:'actions' }
         ];
 
         const pagination = this.props.pagination? <TablePageControl pagination={this.props.pagination} onPageChanged={this.pageChangedHandler} /> : ''
@@ -79,7 +89,7 @@ class InventoryLocation extends Component {
                         data={this.props.locations} 
                         sort={this.state.sort}
                         onSort={this.locationSortedHandler}
-                        onUpdate={this.updateLocationHandler} />
+                        onUpdate={this.updateLocationHandler} onAdd={this.createLocationHandler} />
                 </div>
                 { pagination }
             </div>
@@ -102,7 +112,8 @@ const mapDispatchToProps = dispatch => {
 
     return {
         onLoadLocations: (pageNumber, sort, filter, callback) => dispatch(loadLocations(pageNumber, sort, filter, callback)),
-        onLoadLocationTypes: () => dispatch(loadLocationTypes())
+        onLoadLocationTypes: () => dispatch(loadLocationTypes()),
+        onCreateLocation: (location, callback) => dispatch(createLocation(location, callback))
     }
 
 }

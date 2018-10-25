@@ -38,5 +38,6 @@ export {
 export {
     loadLocations,
     loadLocation,
-    loadLocationTypes
+    loadLocationTypes,
+    createLocation
 }from './locations';

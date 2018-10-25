@@ -29,6 +29,9 @@ export const DELETE_PRODUCT = 'delete_product';
 export const LOAD_LOCATIONS = 'load_locations';
 export const LOAD_LOCATION = 'load_location';
 export const LOAD_LOCATION_TYPES = 'load_location_types';
+export const UPDATE_LOCATION = 'update_location';
+export const CREATE_LOCATION = 'create_location';
+export const DELETE_LOCATION = 'delete_location';
 
 
 

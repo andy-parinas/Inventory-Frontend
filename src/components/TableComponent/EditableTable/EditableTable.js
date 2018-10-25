@@ -1,6 +1,8 @@
 import React, {Component, PureComponent} from 'react';
 import {SortAmountAsc, SortAmountDesc} from '../../../components/UI/Icons';
 import EditableTableCell from './EditableTableCell';
+import NewEntryRow from './NewEntryRow';
+import EditableTableRow from './EditableTableRow';
 
 class TableCell extends Component {
 
@@ -28,20 +30,22 @@ class TableCell extends Component {
 
 const TableData = (props) => {
 
-    console.log(props.data);
     const rows = props.data.map((row,i) => {
 
-        return  <tr className='app-table-editable__row' key={i} >
-                    <TableCell 
-                        columns={props.columns} 
-                        data={row} onUpdate={props.onUpdate} />
-                </tr>
+        // return  <tr className='app-table-editable__row' key={i} >
+        //             <TableCell 
+        //                 columns={props.columns} 
+        //                 data={row} onUpdate={props.onUpdate} />
+        //         </tr>
+
+        return <EditableTableRow columns={props.columns} data={row} />
     })
 
 
     return(
         <tbody className='app-table-editable__body' >
             {rows}
+            <NewEntryRow columns={props.columns} />
         </tbody>
     )
 
@@ -82,15 +86,54 @@ const TableHeader = (props) => {
 
 class EditableTable extends Component {
 
+    // state = {
+    //     data: []
+    // }
+
+    
+    // static getDerivedStateFromProps(nextProps, prevState){
+
+    //     if(prevState.data.length === 0 || prevState.data[1].id !== nextProps.data[1].id){
+
+    //         return {
+    //             ...prevState,
+    //             data: nextProps.data
+    //         }
+
+    //     }
+
+    //     return null;
+    // }
+
+    // addLocationHandler = (location) => {
+    //   this.setState(prevState => {
+
+    //     return {
+    //         ...prevState,
+    //         data: [...prevState.data, location]
+    //     }
+    //   })
+    // }
+
   
     render(){
-        console.log(this.props.data);
+
+        const rows = this.props.data.map((row,i) => {
+            return <EditableTableRow columns={this.props.columns} data={row} />
+        })
+
+
+
         return(
             <table className='app-table-editable'>
                 <TableHeader columns={this.props.columns} sort={this.props.sort} onSort={this.props.onSort} />
-                <TableData 
+                {/* <TableData 
                     columns={this.props.columns} 
-                    data={this.props.data} onUpdate={this.props.onUpdate} />
+                    data={this.props.data} onUpdate={this.props.onUpdate} /> */}
+                 <tbody className='app-table-editable__body' >
+                    {rows}
+                    <NewEntryRow columns={this.props.columns} onAdd={this.props.onAdd} />
+                </tbody>
             </table>
         )
     }

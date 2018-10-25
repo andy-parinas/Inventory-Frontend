@@ -167,12 +167,12 @@ module.exports = {
                 },
               },
               {
-                // loader: require.resolve('sass-loader'),
-                loaders: [
-                  require.resolve('style-loader'),
-                  require.resolve('css-loader'),
-                  require.resolve('sass-loader')
-                ],
+                loader: require.resolve('sass-loader'),
+                // loaders: [
+                //   require.resolve('style-loader'),
+                //   require.resolve('css-loader'),
+                //   require.resolve('sass-loader')
+                // ],
                 options: {
                   // Necessary for external CSS imports to work
                   // https://github.com/facebookincubator/create-react-app/issues/2677

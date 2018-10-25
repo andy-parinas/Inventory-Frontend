@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES, SHOW_LOADING} from './actionTypes';
+import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES, SHOW_LOADING, CREATE_LOCATION} from './actionTypes';
 import {InventoryBackendAPI} from '../../AppSettings';
 
 export const loadLocations = (pageNumber: number = 1, sort, filter, callback) => async dispatch => {
@@ -21,12 +21,7 @@ export const loadLocations = (pageNumber: number = 1, sort, filter, callback) =>
             }
         }
        
-
-        // console.log(uri);
-
         const response = await axios.get(uri);
-
-        // console.log(response.data);
 
         dispatch({
             type: LOAD_LOCATIONS,
@@ -82,4 +77,31 @@ export const loadLocationTypes = () => async dispatch => {
         console.log(error);
 
     }
+}
+
+export const createLocation = (location, callback) => async dispatch => {
+
+    try {
+
+        console.log(location);
+
+        const uri = `${InventoryBackendAPI}/locations`;
+
+        const response = await axios.post(uri, location);
+
+        
+        dispatch({
+            type: CREATE_LOCATION,
+            location: response.data
+        })
+
+    if(callback) callback();
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+
 }

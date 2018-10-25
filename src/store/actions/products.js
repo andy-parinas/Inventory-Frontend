@@ -182,8 +182,6 @@ export const createProduct = (productForm, callback) => async dispatch => {
 
         convertFormToObject(productForm, newProduct);
 
-        console.log(newProduct);
-
         const uri = `${InventoryBackendAPI}/products`;
         const response = await axios.post(uri, newProduct);
 

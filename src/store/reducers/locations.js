@@ -1,4 +1,4 @@
-import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES} from '../actions/actionTypes';
+import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES, UPDATE_LOCATION, CREATE_LOCATION} from '../actions/actionTypes';
 
 const initialState = {
     locations: [],
@@ -28,6 +28,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 locationTypes: action.locationTypes
+            }
+
+        case CREATE_LOCATION:
+            return {
+                ...state,
+                locations: [...state.locations, action.location]
             }
         default:
             return state;

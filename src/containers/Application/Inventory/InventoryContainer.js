@@ -9,6 +9,7 @@ import InventoryNew from './inventory-new/InventoryNew';
 import InventorySearch from './inventory-search/InventorySearch';
 import LinkMenu from '../../../components/UI/LinkMenu';
 import InventoryLocation from '../Inventory/inventory-location/InventoryLocation';
+import LocationContainer from './inventory-location/LocationContainer';
 
 
 const menu = [
@@ -36,7 +37,7 @@ class InventoryContainer extends Component {
                         <Switch>
                             <Route path='/inventories/all' component={InventoryList} />
                             <Route path='/inventories/new' component={InventoryNew} />
-                            <Route path='/inventories/locations' component={InventoryLocation} />
+                            <Route path='/inventories/locations' component={LocationContainer} />
                             <Route path='/inventories/show/:id' component={InventoryDetail} />
                             <Route path='/inventories/search/:id' component={InventoryDetail} />
                             <Route path='/inventories/search' component={InventorySearch} />

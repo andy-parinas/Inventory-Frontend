@@ -119,7 +119,7 @@ class EditableTable extends Component {
     render(){
 
         const rows = this.props.data.map((row,i) => {
-            return <EditableTableRow columns={this.props.columns} data={row} />
+            return <EditableTableRow key={i} columns={this.props.columns} data={row} />
         })
 
 

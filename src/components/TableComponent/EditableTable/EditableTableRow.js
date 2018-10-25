@@ -84,7 +84,7 @@ class EditableTableRow extends Component {
                         </div>
              }
     
-            return <td className='app-table-editable__data'> { cell } </td>
+            return <td key={i} className='app-table-editable__data'> { cell } </td>
 
 
 
@@ -92,7 +92,7 @@ class EditableTableRow extends Component {
 
 
 
-        return <tr className='app-table-editable__row' > {cells} </tr>
+        return <tr className='app-table-editable__row'>{cells}</tr>
     }
 
 

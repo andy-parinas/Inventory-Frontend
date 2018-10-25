@@ -12,7 +12,7 @@ class NewEntryRow extends Component {
                 if(column.inputType === 'select'){
                      this.setState({
                         ...this.state,
-                        [column.value]: column.options.length > 0 ? column.option[0].id : 0
+                        [column.value]: column.options.length > 0 ? column.options[0].id : 0
                     })
                 }else {
                     this.setState({
@@ -26,27 +26,6 @@ class NewEntryRow extends Component {
         })
     }
 
-
-    static getDerivedStateFromProps(nextProps, prevState){
-
-        nextProps.columns.map(column => {
-
-            if(column.inputType === 'select'){
-
-                if(prevState[column.value] === 0 && ){
-                    return {
-                        ...prevState,
-                        [column.value]: column
-                    }
-                }
-
-            }
-
-
-        })
-
-
-    }
 
     inputChangeHandler = (event) => {
         const name = event.target.name;
@@ -74,7 +53,7 @@ class NewEntryRow extends Component {
 
     render(){
 
-        const newRow = this.props.columns.map(column => {
+        const newRow = this.props.columns.map((column, i) => {
 
             let cell = '';
 
@@ -83,7 +62,7 @@ class NewEntryRow extends Component {
                          name={column.value}
                          className='app-table-input app-table-input--visible' 
                          type='text' 
-                         value={this.state[column.value]} 
+                         value={this.state[column.value] ? this.state[column.value] : '' } 
                          onChange={this.inputChangeHandler} />
              }
      
@@ -96,6 +75,7 @@ class NewEntryRow extends Component {
                                 name={column.value}
                                 value={this.state[column.value]} 
                                 onChange={this.inputChangeHandler}  >
+                            <option value={0} > </option>
                             {options}
                         </select>
              }
@@ -108,14 +88,14 @@ class NewEntryRow extends Component {
                        </div>
             }
 
-             return <td className='app-table-editable__data'> {cell} </td>
+             return <td key={i} className='app-table-editable__data'> {cell} </td>
 
         })
 
         
 
 
-        return <tr className='app-table-editable__row' > {newRow} </tr>
+        return <tr className='app-table-editable__row'>{newRow}</tr>
     }
 
 

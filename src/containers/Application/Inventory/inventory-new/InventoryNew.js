@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import InventoryForm from '../inventory-form/InventoryForm';
 import {InventoryBackendAPI} from '../../../../AppSettings';
-import {showMessages} from '../../../../store/actions/index';
+import {showMessages, createInventory} from '../../../../store/actions/index';
 import {validateForm} from '../../../../helpers/helpers';
 
 class InventoryNew extends Component {
@@ -32,20 +32,9 @@ class InventoryNew extends Component {
 
         if(validateForm(inventoryForm)){
 
-                
-            const inventory = {
-                product: '',
-                quantity: 0,
-                sku: '',
-                status: '',
-                thresholdWarning: 0,
-                thresholdCritical: 0,
-                location: ''
-            }
-
-            this.convertFormToObject(inventoryForm, inventory);
-
-            this.postInventoryToBackend(inventory);
+            this.props.onCreateInventory(inventoryForm, (id) => {
+                this.props.history.push(`/inventories/show/${id}`);
+            })
 
 
         }else {
@@ -54,43 +43,6 @@ class InventoryNew extends Component {
 
 
         
-    }
-
-    convertFormToObject(form, object) {
-
-        for(const property in object){
-            object[property] = form[property].value
-        }
-
-    }
-
-    async postInventoryToBackend(inventoryData) {
-
-        try{
-            const uri = `${InventoryBackendAPI}/inventories`;
-            const response = await axios.post(uri, inventoryData);
-
-            if(response.status === 201){
-                const createdInventory = response.data;
-
-                this.props.history.push(`/inventories/${createdInventory.id}`);
-
-                this.props.onShowMessage('success', ['Successfully Created Inventory']);
-            }
-
-        }catch(error) {
-
-            if(error.response.data && error.response.status === 400){
-
-                let messages = [];
-                for(let err in error.response.data){
-                    messages.push(error.response.data[err][0]);
-                }
-                
-                this.props.onShowMessage('error', messages);
-
-            }
-        }
     }
 
 
@@ -102,7 +54,7 @@ class InventoryNew extends Component {
                 <h2>Create New Inventory</h2>
                 <InventoryForm  action={this.state.action}
                                 onSave={this.saveInventoryHandler}
-                                onCancel={() => this.props.history.goBack()} 
+                                onCancelClicked={() => this.props.history.goBack()} 
                                 data={this.state.inventory} options={this.state.options} />
             </div>
             </div>
@@ -115,7 +67,8 @@ class InventoryNew extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
+        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages)),
+        onCreateInventory: (inventoryForm, callback) => dispatch(createInventory(inventoryForm, callback))
     }
 }
 

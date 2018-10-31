@@ -9,7 +9,8 @@ import {LOAD_INVENTORIES,
     HIDE_LOADING,
     LOAD_STATUS_OPTIONS,
     SET_INVENTORIES_FILTER,
-    CLEAR_INVENTORIES_FILTER} from './actionTypes';
+    CLEAR_INVENTORIES_FILTER,
+    CREATE_INVENTORY} from './actionTypes';
 
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
@@ -226,4 +227,75 @@ export const loadStatusOptions = () => async dispatch => {
 
 }
 
+
+export const createInventory = (inventoryForm, callback) => async dispatch => {
+    try{
+
+        dispatch({
+            type: SHOW_LOADING
+        })
+
+        const newInventory = {
+            product: '',
+            quantity: 0,
+            sku: '',
+            status: '',
+            thresholdWarning: 0,
+            thresholdCritical: 0,
+            location: ''
+        }
+
+        convertFormToObject(inventoryForm, newInventory);
+
+        const uri = `${InventoryBackendAPI}/inventories`;
+        const response = await axios.post(uri, newInventory);
+
+        dispatch({
+            type: CREATE_INVENTORY,
+            inventory: response.data
+        })
+
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages: ['Successfuly updated inventory']
+        });
+
+        if(callback) callback(response.data.id);
+
+        dispatch({
+            type: HIDE_LOADING
+        })
+
+    }catch(error){
+
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Creating Inventory']
+            })
+
+            console.log(error);
+        }
+
+       
+
+        dispatch({
+            type: HIDE_LOADING
+        });
+
+
+    }
+
+}
 

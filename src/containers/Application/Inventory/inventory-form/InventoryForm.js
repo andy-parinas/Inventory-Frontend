@@ -234,8 +234,8 @@ class InventoryForm extends Component {
                     [name]: {
                         ...this.state.form[name],
                         value: value,
-                        isValid: validationResult.isValid,
-                        errorMessages: validationResult.messages,
+                        // isValid: validationResult.isValid,
+                        // errorMessages: validationResult.messages,
                         touched: true
                     },
                     sku: {
@@ -265,6 +265,31 @@ class InventoryForm extends Component {
             });
         }
         
+    }
+
+    //Validates the Location and Product once out of Focus
+    inputBlurHandler = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+
+        const validationResult = validateInput(this.state.form[name].validations, 
+            value, this.state.form[name].options);
+
+        if(name ==='product' || name === 'location'){
+
+            this.setState({
+                ...this.state,
+                form: {
+                    ...this.state.form,
+                    [name]: {
+                        ...this.state.form[name],
+                        isValid: validationResult.isValid,
+                        errorMessages: validationResult.messages,
+                    }
+                }
+            });
+
+        }
     }
 
 
@@ -484,7 +509,7 @@ class InventoryForm extends Component {
                             errorMessages={this.state.form.product.errorMessages}
                             options={this.state.form.product.options}
                             elementConfig={this.state.form.product.elementConfig}
-                            disabled={disabled} />
+                            disabled={disabled} onBlur={this.inputBlurHandler} />
                     </div>
                     <div className='app-form-row app-form-row--r2c2'>
                         <FormInput 
@@ -528,7 +553,7 @@ class InventoryForm extends Component {
                             errorMessages={this.state.form.location.errorMessages}
                             options={this.state.form.location.options}
                             elementConfig={this.state.form.location.elementConfig}
-                            disabled={disabled} />
+                            disabled={disabled} onBlur={this.inputBlurHandler} />
                     </div>            
                 </div>
                { 

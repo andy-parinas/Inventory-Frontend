@@ -38,7 +38,7 @@ class NewEntryRow extends Component {
 
     }
 
-    addLocationHandler = () => {
+    addHandler = () => {
         this.props.onAdd(this.state, () => {
             this.props.columns.map(column => {
                 if(column.inputType !== 'actions'){
@@ -83,7 +83,7 @@ class NewEntryRow extends Component {
              if(column.inputType === 'actions'){
                 cell = <div className='app-table-control' >
                            <button className='app-table-btn app-table-btn--primary' 
-                                    onClick={this.addLocationHandler} > Add New </button>
+                                    onClick={this.addHandler} > Add New </button>
                            {/* <button className='app-table-btn app-table-btn--danger'> Clear </button> */}
                        </div>
             }

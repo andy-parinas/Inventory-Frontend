@@ -14,7 +14,8 @@ export {
     updateInventory,
     deleteInventory,
     loadStatusOptions,
-    resetInventories
+    resetInventories,
+    createInventory
 } from './inventories';
 
 
@@ -39,5 +40,9 @@ export {
     loadLocations,
     loadLocation,
     loadLocationTypes,
-    createLocation
+    createLocation,
+    updateLocation,
+    createLocationType,
+    updateLocationType,
+    deleteLocationType
 }from './locations';

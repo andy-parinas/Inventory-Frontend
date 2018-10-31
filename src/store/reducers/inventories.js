@@ -6,7 +6,8 @@ import {
     LOAD_STATUS_OPTIONS, 
     RESET_INVENTORIES,
     SET_INVENTORIES_FILTER,
-    CLEAR_INVENTORIES_FILTER} from '../actions/actionTypes';
+    CLEAR_INVENTORIES_FILTER,
+    CREATE_INVENTORY} from '../actions/actionTypes';
 
 const initialState = {
     inventories: [],
@@ -72,6 +73,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 filter: null
+            }
+
+        case CREATE_INVENTORY:
+            return {
+                ...state,
+                inventory: action.inventory
             }
 
         default:

@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES, SHOW_LOADING, CREATE_LOCATION} from './actionTypes';
+import {LOAD_LOCATIONS, LOAD_LOCATION, 
+    LOAD_LOCATION_TYPES, SHOW_LOADING, CREATE_LOCATION, HIDE_LOADING, SHOW_MESSAGES, 
+    CREATE_LOCATION_TYPE, UPDATE_LOCATION_TYPE, DELETE_LOCATION_TYPE, UPDATE_LOCATION} from './actionTypes';
 import {InventoryBackendAPI} from '../../AppSettings';
 
 export const loadLocations = (pageNumber: number = 1, sort, filter, callback) => async dispatch => {
@@ -31,8 +33,33 @@ export const loadLocations = (pageNumber: number = 1, sort, filter, callback) =>
 
         if(callback) callback();
 
+          
+        dispatch({
+            type: HIDE_LOADING
+        });
+
     }catch(error){
-        console.log(error);
+        
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Loading Location']
+            })
+
+            console.log(error);
+        }
+
+        dispatch({
+            type: HIDE_LOADING
+        });
 
     }
 
@@ -60,30 +87,12 @@ export const loadLocation = (id) => async dispatch => {
 
 }
 
-export const loadLocationTypes = () => async dispatch => {
 
-    try {
-        const uri = `${InventoryBackendAPI}/locations/types`;
-        const response = await axios.get(uri);
-
-        dispatch({
-            type: LOAD_LOCATION_TYPES,
-            locationTypes: response.data
-        })
-
-
-    }catch(error){
-
-        console.log(error);
-
-    }
-}
 
 export const createLocation = (location, callback) => async dispatch => {
 
     try {
 
-        console.log(location);
 
         const uri = `${InventoryBackendAPI}/locations`;
 
@@ -103,5 +112,210 @@ export const createLocation = (location, callback) => async dispatch => {
 
     }
 
+
+}
+
+export const updateLocation = (id, location, callback) => async dispatch => {
+    try{
+
+        const uri = `${InventoryBackendAPI}/locations/${id}`;
+
+        const response = await axios.put(uri, location);
+
+        
+        dispatch({
+            type: UPDATE_LOCATION,
+            id: id,
+            location: response.data
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Location Successfully Updated']
+        })
+
+
+    }catch(error) {
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Updating Location']
+            })
+
+            console.log(error);
+        }
+
+
+    }
+}
+
+
+export const loadLocationTypes = () => async dispatch => {
+
+    try {
+        const uri = `${InventoryBackendAPI}/locations/types`;
+        const response = await axios.get(uri);
+
+        dispatch({
+            type: LOAD_LOCATION_TYPES,
+            locationTypes: response.data
+        })
+
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+}
+
+export const createLocationType = (locationType, callback) => async dispatch => {
+
+    try {
+
+        console.log(locationType);
+
+        const uri = `${InventoryBackendAPI}/locations/types`
+        const response = await axios.post(uri, locationType);
+
+
+        dispatch({
+            type: CREATE_LOCATION_TYPE,
+            locationType: response.data
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Location Type Successfully Created']
+        })
+
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Creating Location Type']
+            })
+
+            console.log(error);
+        }
+
+    }
+
+}
+
+export const updateLocationType = (id, locationType, callback) => async dispatch => {
+
+
+    try {
+
+        const uri = `${InventoryBackendAPI}/locations/types/${id}`
+        const response = await axios.put(uri, locationType);
+
+
+        dispatch({
+            type: UPDATE_LOCATION_TYPE,
+            id: id,
+            locationType: response.data
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Location Type Successfully Updated']
+        })
+
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Updating Location Type']
+            })
+
+            console.log(error);
+        }
+
+    }
+
+}
+
+export const deleteLocationType = (id, callback) => async dispatch => {
+
+    try {
+
+        const uri = `${InventoryBackendAPI}/locations/types/${id}`
+        const response = await axios.delete(uri);
+
+
+        dispatch({
+            type: DELETE_LOCATION_TYPE,
+            id: id
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Location Type Successfully Deleted']
+        })
+
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Deleting Location Type']
+            })
+
+            console.log(error);
+        }
+
+    }
 
 }

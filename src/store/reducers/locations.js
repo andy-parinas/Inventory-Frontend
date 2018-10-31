@@ -1,4 +1,4 @@
-import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES, UPDATE_LOCATION, CREATE_LOCATION} from '../actions/actionTypes';
+import {LOAD_LOCATIONS, LOAD_LOCATION, LOAD_LOCATION_TYPES, UPDATE_LOCATION, CREATE_LOCATION, CREATE_LOCATION_TYPE, UPDATE_LOCATION_TYPE, DELETE_LOCATION_TYPE} from '../actions/actionTypes';
 
 const initialState = {
     locations: [],
@@ -35,6 +35,38 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 locations: [...state.locations, action.location]
             }
+
+        case UPDATE_LOCATION:
+            const locIndex = state.locations.findIndex(l => l.id === action.id);
+                
+            state.locations.splice(locIndex, 1, action.locationType )
+            
+            return {
+                ...state
+            }
+
+        case CREATE_LOCATION_TYPE:
+            return {
+                ...state,
+                locationTypes: [...state.locationTypes, action.locationType]
+            }
+
+        case UPDATE_LOCATION_TYPE:
+            const index = state.locationTypes.findIndex(l => l.id === action.id);
+            
+            state.locationTypes.splice(index, 1, action.locationType )
+            
+            return {
+                ...state
+            }
+        case DELETE_LOCATION_TYPE:
+            const delIndex = state.locationTypes.findIndex(l => l.id === action.id);
+            state.locationTypes.splice(delIndex, 1)
+
+            return {
+                ...state
+            }
+
         default:
             return state;
     }

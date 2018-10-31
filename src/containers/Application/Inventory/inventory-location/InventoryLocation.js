@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {loadLocations, loadLocationTypes, createLocation} from '../../../../store/actions';
+import {loadLocations, loadLocationTypes, createLocation, updateLocation} from '../../../../store/actions';
 import EditableTable from '../../../../components/TableComponent/EditableTable/EditableTable';
 import LocationSearchControl from './LocationSearchControl';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
@@ -28,8 +28,8 @@ class InventoryLocation extends Component {
         
     }
 
-    updateLocationHandler = (id, property, value) => {
-        console.log(id, property, value)
+    updateLocationHandler = (id, location) => {
+        this.props.onUpdateLocation(id, location)
     }
 
     createLocationHandler = (location, callback) => {
@@ -113,7 +113,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onLoadLocations: (pageNumber, sort, filter, callback) => dispatch(loadLocations(pageNumber, sort, filter, callback)),
         onLoadLocationTypes: () => dispatch(loadLocationTypes()),
-        onCreateLocation: (location, callback) => dispatch(createLocation(location, callback))
+        onCreateLocation: (location, callback) => dispatch(createLocation(location, callback)),
+        onUpdateLocation: (id, location, callback) => dispatch(updateLocation(id, location, callback))
     }
 
 }

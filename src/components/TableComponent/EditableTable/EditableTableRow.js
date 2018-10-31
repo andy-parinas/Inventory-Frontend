@@ -79,8 +79,8 @@ class EditableTableRow extends Component {
 
              if(column.inputType === 'actions'){
                  cell = <div className='app-table-control' >
-                            <button className='app-table-btn app-table-btn--primary'> Update </button>
-                            <button className='app-table-btn app-table-btn--danger'> Delete </button>
+                            <button className='app-table-btn app-table-btn--primary' onClick={() => this.props.onUpdate(this.props.data.id, this.state)} > Update </button>
+                            <button className='app-table-btn app-table-btn--danger' onClick={() => this.props.onDelete(this.props.data.id)} > Delete </button>
                         </div>
              }
     

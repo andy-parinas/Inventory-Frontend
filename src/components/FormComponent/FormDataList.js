@@ -8,11 +8,14 @@ const FormDataList = (props) => {
 
     let validationMessage = ''
 
-    if(!props.isValid && props.touched){
-        validationMessage = props.errorMessages.map((message, i) => {
-            return <span key={i} className='app-form__validation app-form-row__col--2'> { message} </span>
-        })
+    if(props.options.length > 0){
+        if(!props.isValid && props.touched){
+            validationMessage = props.errorMessages.map((message, i) => {
+                return <span key={i} className='app-form__validation app-form-row__col--2'> { message} </span>
+            })
+        }
     }
+    
 
     return(
         <div className='app-form-row-element'>
@@ -22,7 +25,7 @@ const FormDataList = (props) => {
                 {...props.elementConfig} 
                 value={props.value} 
                 onChange={props.onChange}
-                disabled={props.disabled} />
+                disabled={props.disabled} onBlur={props.onBlur} />
             <div className='app-form-row-element__validation'>
                 { validationMessage }
             </div>           

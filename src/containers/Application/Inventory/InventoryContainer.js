@@ -10,13 +10,14 @@ import InventorySearch from './inventory-search/InventorySearch';
 import LinkMenu from '../../../components/UI/LinkMenu';
 import InventoryLocation from '../Inventory/inventory-location/InventoryLocation';
 import LocationContainer from './inventory-location/LocationContainer';
+import LocationTypes from './inventory-location/LocationTypes';
 
 
 const menu = [
     {name: 'List All Inventory', path: '/inventories/all'},
     {name: 'Create New Inventory', path: '/inventories/new'},
-    {name: 'Manage Location', path: '/inventories/locations'},
-    {name: 'Create Reports', path: '/inventories/reports'}
+    {name: 'Location', path: '/inventories/locations'},
+    {name: 'Location Type', path: '/inventories/locationtypes'}
 ]
 
 class InventoryContainer extends Component {
@@ -38,10 +39,8 @@ class InventoryContainer extends Component {
                             <Route path='/inventories/all' component={InventoryList} />
                             <Route path='/inventories/new' component={InventoryNew} />
                             <Route path='/inventories/locations' component={LocationContainer} />
+                            <Route path='/inventories/locationtypes' component={LocationTypes} />
                             <Route path='/inventories/show/:id' component={InventoryDetail} />
-                            <Route path='/inventories/search/:id' component={InventoryDetail} />
-                            <Route path='/inventories/search' component={InventorySearch} />
-                            <Route path='/inventories/:id' component={InventoryDetail} />
                             <Redirect to='/inventories/all' from='/inventories' />
                         </Switch>
                     </div>

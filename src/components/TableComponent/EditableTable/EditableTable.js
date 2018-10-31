@@ -119,7 +119,8 @@ class EditableTable extends Component {
     render(){
 
         const rows = this.props.data.map((row,i) => {
-            return <EditableTableRow key={i} columns={this.props.columns} data={row} />
+            return <EditableTableRow key={i} columns={this.props.columns} 
+                        data={row} onUpdate={this.props.onUpdate} onDelete={this.props.onDelete} />
         })
 
 
@@ -127,9 +128,6 @@ class EditableTable extends Component {
         return(
             <table className='app-table-editable'>
                 <TableHeader columns={this.props.columns} sort={this.props.sort} onSort={this.props.onSort} />
-                {/* <TableData 
-                    columns={this.props.columns} 
-                    data={this.props.data} onUpdate={this.props.onUpdate} /> */}
                  <tbody className='app-table-editable__body' >
                     {rows}
                     <NewEntryRow columns={this.props.columns} onAdd={this.props.onAdd} />

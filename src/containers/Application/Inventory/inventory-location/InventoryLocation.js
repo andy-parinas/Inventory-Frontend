@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {loadLocations, loadLocationTypes, createLocation, updateLocation} from '../../../../store/actions';
+import {loadLocations, loadLocationTypes, createLocation, updateLocation, deleteLocation} from '../../../../store/actions';
 import EditableTable from '../../../../components/TableComponent/EditableTable/EditableTable';
 import LocationSearchControl from './LocationSearchControl';
 import TablePageControl from '../../../../components/TableComponent/TablePageControl';
@@ -13,7 +13,8 @@ class InventoryLocation extends Component {
         sort: {
             column: 'name',
             asc: true
-        }
+        },
+        filter: {}
     }
 
     componentDidMount(){
@@ -36,6 +37,10 @@ class InventoryLocation extends Component {
         this.props.onCreateLocation(location, callback);
     }
 
+    deleteLocationHandler = (id) => {
+        this.props.onDeleteLocation(id)
+    }
+
     pageChangedHandler = (pageNumber: number = 1) => {
         if(pageNumber >= 1 && pageNumber <= this.props.pagination.totalPages){
             this.props.onLoadLocations(pageNumber, this.state.sort, null, null);
@@ -50,7 +55,7 @@ class InventoryLocation extends Component {
 
         const pageNumber = this.props.pagination.pageNumber
 
-        this.props.onLoadLocations(pageNumber, sort, null, () => {
+        this.props.onLoadLocations(pageNumber, sort, this.state.filter, () => {
             this.setState(prevState => {
                 return {
                     ...this.state,
@@ -63,6 +68,18 @@ class InventoryLocation extends Component {
 
     }
 
+    locationSearchHandler = (filter) => {
+        this.props.onLoadLocations(1, this.state.sort, filter, () => {
+            this.setState(prevState => {
+                return {
+                    ...this.state,
+                   filter: {
+                    ...filter
+                   }
+                }
+            })
+        })
+    }
 
 
     render(){
@@ -83,13 +100,14 @@ class InventoryLocation extends Component {
                 <div className='app-row' >
                     <h2>Inventory Locations</h2>
                     <hr />
-                    <LocationSearchControl />
+                    <LocationSearchControl onSearch={this.locationSearchHandler} />
                     <EditableTable 
                         columns={columns} 
                         data={this.props.locations} 
                         sort={this.state.sort}
                         onSort={this.locationSortedHandler}
-                        onUpdate={this.updateLocationHandler} onAdd={this.createLocationHandler} />
+                        onUpdate={this.updateLocationHandler} onDelete={this.deleteLocationHandler}
+                        onAdd={this.createLocationHandler} />
                 </div>
                 { pagination }
             </div>
@@ -114,7 +132,8 @@ const mapDispatchToProps = dispatch => {
         onLoadLocations: (pageNumber, sort, filter, callback) => dispatch(loadLocations(pageNumber, sort, filter, callback)),
         onLoadLocationTypes: () => dispatch(loadLocationTypes()),
         onCreateLocation: (location, callback) => dispatch(createLocation(location, callback)),
-        onUpdateLocation: (id, location, callback) => dispatch(updateLocation(id, location, callback))
+        onUpdateLocation: (id, location, callback) => dispatch(updateLocation(id, location, callback)),
+        onDeleteLocation: (id, callback) => dispatch(deleteLocation(id, callback))
     }
 
 }

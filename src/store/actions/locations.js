@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {LOAD_LOCATIONS, LOAD_LOCATION, 
     LOAD_LOCATION_TYPES, SHOW_LOADING, CREATE_LOCATION, HIDE_LOADING, SHOW_MESSAGES, 
-    CREATE_LOCATION_TYPE, UPDATE_LOCATION_TYPE, DELETE_LOCATION_TYPE, UPDATE_LOCATION} from './actionTypes';
+    CREATE_LOCATION_TYPE, UPDATE_LOCATION_TYPE, DELETE_LOCATION_TYPE, UPDATE_LOCATION, DELETE_LOCATION} from './actionTypes';
 import {InventoryBackendAPI} from '../../AppSettings';
 
 export const loadLocations = (pageNumber: number = 1, sort, filter, callback) => async dispatch => {
@@ -14,6 +14,7 @@ export const loadLocations = (pageNumber: number = 1, sort, filter, callback) =>
         })
 
         let uri = `${InventoryBackendAPI}/locations?pageNumber=${pageNumber}`;
+        let filterParams = '';
 
         if(sort){
             if(sort.asc){
@@ -22,6 +23,15 @@ export const loadLocations = (pageNumber: number = 1, sort, filter, callback) =>
                 uri = uri + `&orderBy=${sort.column}&direction=DESC`
             }
         }
+
+        if(filter){
+            for(const property in filter){
+                const safeValue = encodeURIComponent(filter[property])
+                filterParams = filterParams + `${property}=${safeValue}&`
+            }
+        }
+
+        uri = uri + `&${filterParams}`;
        
         const response = await axios.get(uri);
 
@@ -161,6 +171,54 @@ export const updateLocation = (id, location, callback) => async dispatch => {
     }
 }
 
+export const deleteLocation = (id, callback) => async dispatch => {
+
+    try{
+
+        const uri = `${InventoryBackendAPI}/locations/${id}`
+        const response = await axios.delete(uri);
+
+
+        dispatch({
+            type: DELETE_LOCATION,
+            id: id
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Location Successfully Deleted']
+        })
+
+
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Deleting Location']
+            })
+
+            console.log(error);
+        }
+
+
+
+    }
+
+
+}
 
 export const loadLocationTypes = () => async dispatch => {
 

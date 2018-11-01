@@ -42,6 +42,7 @@ export {
     loadLocationTypes,
     createLocation,
     updateLocation,
+    deleteLocation,
     createLocationType,
     updateLocationType,
     deleteLocationType

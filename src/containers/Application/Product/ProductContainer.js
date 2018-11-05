@@ -7,13 +7,13 @@ import ProductList from './product-list/ProductList';
 import ProductDetail from './product-detail/ProductDetail';
 import ProductNew from '../Product/product-new/ProductNew';
 import LinkMenu from './../../../components/UI/LinkMenu';
+import ProductCategories from './product-categories/ProductCategories';
 
 
 const menu = [
     {name: 'List All Products', path: '/products/all'},
     {name: 'Create New Product', path: '/products/new'},
-    {name: 'Manage Categories', path: '/products/categories'},
-    {name: 'Create Reports', path: '/products/reports'}
+    {name: 'Categories', path: '/products/categories'}
 ]
 
 class ProductContainer extends Component{
@@ -32,6 +32,7 @@ class ProductContainer extends Component{
                         <Switch>
                             <Route path='/products/all' component={ProductList} />
                             <Route path='/products/new' component={ProductNew} />
+                            <Route path='/products/categories' component={ProductCategories} />
                             <Route path='/products/show/:id' component={ProductDetail} />
                             <Redirect to='/products/all' from='/products' />
                         </Switch>

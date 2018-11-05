@@ -32,7 +32,10 @@ export {
     loadProduct,
     updateProduct,
     deleteProduct,
-    createProduct
+    createProduct,
+    loadProductCategories,
+    createProductCategory,
+    updateProductCategory, deleteProductCategory
 } from './products';
 
 

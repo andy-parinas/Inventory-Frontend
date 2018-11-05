@@ -7,7 +7,12 @@ import {SHOW_MESSAGES,
         LOAD_PRODUCT, 
         UPDATE_PRODUCT, 
         DELETE_PRODUCT, 
-        CREATE_PRODUCT } from './actionTypes';
+        CREATE_PRODUCT, 
+        LOAD_PRODUCT_CATEGORIES,
+        CREATE_PRODUCT_CATEGORY,
+        UPDATE_PRODUCT_CATEGORY,
+        DELETE_PRODUCT_CATEGORY,
+        } from './actionTypes';
 
 import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject} from '../../helpers/helpers';
@@ -276,4 +281,179 @@ export const deleteProduct = (productId, callback) => async dispatch => {
         });
 
     }
+}
+
+export const loadProductCategories = () => async dispatch => {
+
+    try{
+
+        const uri = `${InventoryBackendAPI}/products/categories`;
+        const response = await axios.get(uri);
+
+        dispatch({
+            type: LOAD_PRODUCT_CATEGORIES,
+            categories: response.data
+        })
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Loading Product Categories']
+            })
+
+            console.log(error);
+        }
+
+    }
+}
+
+export const createProductCategory = (productCategory, callback) => async dispatch => {
+
+    try {
+
+        const uri = `${InventoryBackendAPI}/products/categories`;
+        const response = await axios.post(uri, productCategory);
+
+        dispatch({
+            type: CREATE_PRODUCT_CATEGORY,
+            category: response.data
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Product Category Successfully Created']
+        })
+
+
+
+
+    }catch(error) {
+        
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Creating Product Categories']
+            })
+
+            console.log(error);
+        }
+
+
+    }
+
+}
+
+
+export const updateProductCategory = (id, productCategory, callback) => async dispatch => {
+
+    try {
+
+        const uri = `${InventoryBackendAPI}/products/categories/${id}`;
+        const response = await axios.put(uri, productCategory);
+
+        dispatch({
+            type: UPDATE_PRODUCT_CATEGORY,
+            id: id,
+            category: response.data
+        })
+
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Product Category Successfully Updated']
+        })
+
+
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Updating Product Categories']
+            })
+
+            console.log(error);
+        }
+
+    }
+
+}
+
+export const deleteProductCategory = (id, callback) => async dispatch => {
+
+    try {
+        
+        const uri = `${InventoryBackendAPI}/products/categories/${id}`;
+        const response = await axios.delete(uri);
+
+ 
+        dispatch({
+            type: DELETE_PRODUCT_CATEGORY,
+            id: id
+        })    
+
+        
+        if(callback) callback();
+
+        dispatch({
+            type: SHOW_MESSAGES,
+            messageType: 'success',
+            messages:  ['Product Category Successfully Deleted']
+        })
+
+
+    }catch(error){
+
+        if(error.response && error.response.data && error.response.data.error){
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  error.response.data.error
+            })
+
+        }else{
+            dispatch({
+                type: SHOW_MESSAGES,
+                messageType: 'error',
+                messages:  ['Error Updating Product Categories']
+            })
+
+            console.log(error);
+        }
+
+
+    }
+
 }

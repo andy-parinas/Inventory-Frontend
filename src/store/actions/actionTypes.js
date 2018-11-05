@@ -25,6 +25,10 @@ export const LOAD_PRODUCT = 'load_product';
 export const CREATE_PRODUCT = 'create_product';
 export const UPDATE_PRODUCT = 'update_product';
 export const DELETE_PRODUCT = 'delete_product';
+export const LOAD_PRODUCT_CATEGORIES = 'load_product_categories';
+export const CREATE_PRODUCT_CATEGORY = 'create_product_category';
+export const UPDATE_PRODUCT_CATEGORY = 'update_product_category';
+export const DELETE_PRODUCT_CATEGORY = 'delete_product_category';
 
 export const LOAD_LOCATIONS = 'load_locations';
 export const LOAD_LOCATION = 'load_location';

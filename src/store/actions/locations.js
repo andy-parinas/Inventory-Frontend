@@ -243,8 +243,6 @@ export const createLocationType = (locationType, callback) => async dispatch => 
 
     try {
 
-        console.log(locationType);
-
         const uri = `${InventoryBackendAPI}/locations/types`
         const response = await axios.post(uri, locationType);
 

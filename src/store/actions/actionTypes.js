@@ -40,6 +40,11 @@ export const CREATE_LOCATION_TYPE = 'create_location_type';
 export const UPDATE_LOCATION_TYPE = 'update_location_type';
 export const DELETE_LOCATION_TYPE = 'delete_location_type';
 
+export const LOGIN_USER = 'login_user';
+export const LOGOUT_USER = 'logout_error';
+
+
+
 
 
 

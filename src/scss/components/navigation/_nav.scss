@@ -12,6 +12,14 @@
 
     &__menu{
         margin: 0 2rem;
+        flex: 1;
+    }
+
+    &__profile{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
     }
 }
 
@@ -21,4 +29,9 @@
     background-color: black;
     display: flex;
     align-items: center;
+}
+
+.profile-text {
+    margin-right: 2rem;
+    font-size: 1.3rem;
 }

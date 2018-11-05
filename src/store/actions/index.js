@@ -50,3 +50,8 @@ export {
     updateLocationType,
     deleteLocationType
 }from './locations';
+
+export {
+    login,
+    logout
+}from './authentication';

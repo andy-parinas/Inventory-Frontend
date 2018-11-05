@@ -6,6 +6,7 @@ import transactionReducer from './reducers/transactions';
 import loadingReducer from './reducers/loading';
 import productReducer from './reducers/products';
 import locationReducer from './reducers/locations';
+import authReducer from './reducers/authentication';
 
 const rootReducer = combineReducers({
     messages: messagesReducer,
@@ -13,11 +14,18 @@ const rootReducer = combineReducers({
     transactions: transactionReducer,
     products: productReducer,
     locations: locationReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
+    auth: authReducer
 });
 
 const configureStore = () => {
-    return createStore(rootReducer, applyMiddleware(reduxThunk));
+    return createStore(rootReducer, {
+        auth: {
+            authenticated: localStorage.getItem('token')? true : false,
+            token: localStorage.getItem('token'),
+            userName: localStorage.getItem('userName')
+        }
+    }, applyMiddleware(reduxThunk));
 }
 
 export default configureStore;

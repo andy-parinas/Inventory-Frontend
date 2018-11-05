@@ -3,3 +3,17 @@
     align-items: center;
     
 }
+
+.btn-logout {
+
+    border: none;
+    background-color: transparent;
+    margin-right: 5rem;
+    color: #ffc3ae;
+    font-size: 1.3rem;
+
+    &:hover{
+        cursor: pointer;
+        color: white;
+    }
+}

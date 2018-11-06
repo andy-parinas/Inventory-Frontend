@@ -15,7 +15,7 @@ import {SHOW_MESSAGES,
         } from './actionTypes';
 
 import {InventoryBackendAPI} from '../../AppSettings';
-import {convertFormToObject} from '../../helpers/helpers';
+import {convertFormToObject, getAuthHeader} from '../../helpers/helpers';
 
 
 export const loadProducts = (pageNumber: number = 1, sort, callback) => async dispatch => {
@@ -26,7 +26,7 @@ export const loadProducts = (pageNumber: number = 1, sort, callback) => async di
         })
 
         let uri = `${InventoryBackendAPI}/products?pageNumber=${pageNumber}`;
-
+        const headers = getAuthHeader();
         
         if(sort){
             if(sort.asc){
@@ -36,7 +36,7 @@ export const loadProducts = (pageNumber: number = 1, sort, callback) => async di
             }           
         }
 
-        const response = await axios.get(uri);
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_PRODUCTS,
@@ -77,7 +77,9 @@ export const loadProduct = (productId) => async dispatch => {
         });
 
         const uri = `${InventoryBackendAPI}/products/${productId}`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_PRODUCT,
@@ -129,8 +131,9 @@ export const updateProduct = (productId, productForm, callback) => async dispatc
 
 
         convertFormToObject(productForm, product);
+        const headers = getAuthHeader();
 
-        const response = await axios.put(uri, product);
+        const response = await axios.put(uri, product, {headers: headers});
 
 
         dispatch({
@@ -188,7 +191,9 @@ export const createProduct = (productForm, callback) => async dispatch => {
         convertFormToObject(productForm, newProduct);
 
         const uri = `${InventoryBackendAPI}/products`;
-        const response = await axios.post(uri, newProduct);
+        const headers = getAuthHeader();
+
+        const response = await axios.post(uri, newProduct, {headers: headers});
 
         dispatch({
             type: CREATE_PRODUCT,
@@ -235,8 +240,9 @@ export const deleteProduct = (productId, callback) => async dispatch => {
 
 
         const uri = `${InventoryBackendAPI}/products/${productId}`;
-        
-        await axios.delete(uri);
+        const headers = getAuthHeader();
+
+        await axios.delete(uri, {headers: headers});
 
         dispatch({
             type: DELETE_PRODUCT
@@ -288,7 +294,9 @@ export const loadProductCategories = () => async dispatch => {
     try{
 
         const uri = `${InventoryBackendAPI}/products/categories`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_PRODUCT_CATEGORIES,
@@ -322,7 +330,9 @@ export const createProductCategory = (productCategory, callback) => async dispat
     try {
 
         const uri = `${InventoryBackendAPI}/products/categories`;
-        const response = await axios.post(uri, productCategory);
+        const headers = getAuthHeader();
+
+        const response = await axios.post(uri, productCategory, {headers: headers});
 
         dispatch({
             type: CREATE_PRODUCT_CATEGORY,
@@ -370,7 +380,9 @@ export const updateProductCategory = (id, productCategory, callback) => async di
     try {
 
         const uri = `${InventoryBackendAPI}/products/categories/${id}`;
-        const response = await axios.put(uri, productCategory);
+        const headers = getAuthHeader();
+
+        const response = await axios.put(uri, productCategory, {headers: headers});
 
         dispatch({
             type: UPDATE_PRODUCT_CATEGORY,

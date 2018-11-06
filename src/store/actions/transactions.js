@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {InventoryBackendAPI} from '../../AppSettings';
-import {convertFormToObject} from '../../helpers/helpers';
+import {convertFormToObject, getAuthHeader} from '../../helpers/helpers';
 
 import { LOAD_TRANSACTIONS, 
     SHOW_MESSAGES, 
@@ -18,7 +18,9 @@ export const loadTransactions = (inventoryId, pageNumber: number = 1) => async d
     try{
 
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}/transactions?pageNumber=${pageNumber}`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_TRANSACTIONS,
@@ -43,7 +45,9 @@ export const loadTransaction = (transactionId) => async dispatch => {
 
     try{
         const uri = `${InventoryBackendAPI}/transactions/${transactionId}`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_TRANSACTION,
@@ -82,7 +86,9 @@ export const createTransaction = (inventoryId, transactionForm, callback) => asy
         convertFormToObject(transactionForm, newTransaction);
 
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}/transactions`;
-        const response = await axios.post(uri, newTransaction);
+        const headers = getAuthHeader();
+
+        const response = await axios.post(uri, newTransaction, {headers: headers});
 
         dispatch({
             type: CREATE_TRANSACTION,
@@ -144,7 +150,9 @@ export const updateTransaction = (inventoryId, transactionId, transactionForm, c
         convertFormToObject(transactionForm, transaction);
 
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}/transactions/${transactionId}`;
-        const response = await axios.put(uri, transaction);
+        const headers = getAuthHeader();
+
+        const response = await axios.put(uri, transaction, {headers: headers});
 
         dispatch({
             type: UPDATE_TRANSACTION,
@@ -195,8 +203,9 @@ export const deleteTransction = (transactionId, callback) => async dispatch => {
 
 
         const uri = `${InventoryBackendAPI}/transactions/${transactionId}`;
+        const headers = getAuthHeader();
 
-        const response = await axios.delete(uri);
+        const response = await axios.delete(uri, {headers: headers});
 
         dispatch({
             type: LOAD_INVENTORY,

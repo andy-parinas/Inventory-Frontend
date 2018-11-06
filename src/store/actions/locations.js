@@ -1,9 +1,21 @@
 import axios from 'axios';
 
-import {LOAD_LOCATIONS, LOAD_LOCATION, 
-    LOAD_LOCATION_TYPES, SHOW_LOADING, CREATE_LOCATION, HIDE_LOADING, SHOW_MESSAGES, 
-    CREATE_LOCATION_TYPE, UPDATE_LOCATION_TYPE, DELETE_LOCATION_TYPE, UPDATE_LOCATION, DELETE_LOCATION} from './actionTypes';
+import {LOAD_LOCATIONS, 
+        LOAD_LOCATION, 
+        LOAD_LOCATION_TYPES, 
+        SHOW_LOADING, 
+        CREATE_LOCATION, 
+        HIDE_LOADING,
+        SHOW_MESSAGES, 
+        CREATE_LOCATION_TYPE, 
+        UPDATE_LOCATION_TYPE, 
+        DELETE_LOCATION_TYPE, 
+        UPDATE_LOCATION, 
+        DELETE_LOCATION} from './actionTypes';
+
 import {InventoryBackendAPI} from '../../AppSettings';
+import {getAuthHeader} from '../../helpers/helpers';
+
 
 export const loadLocations = (pageNumber: number = 1, sort, filter, callback) => async dispatch => {
 
@@ -14,6 +26,8 @@ export const loadLocations = (pageNumber: number = 1, sort, filter, callback) =>
         })
 
         let uri = `${InventoryBackendAPI}/locations?pageNumber=${pageNumber}`;
+        const headers = getAuthHeader();
+
         let filterParams = '';
 
         if(sort){
@@ -33,7 +47,7 @@ export const loadLocations = (pageNumber: number = 1, sort, filter, callback) =>
 
         uri = uri + `&${filterParams}`;
        
-        const response = await axios.get(uri);
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_LOCATIONS,
@@ -82,7 +96,9 @@ export const loadLocation = (id) => async dispatch => {
     try{
 
         const uri = `${InventoryBackendAPI}/locations/${id}`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_LOCATION,
@@ -105,8 +121,9 @@ export const createLocation = (location, callback) => async dispatch => {
 
 
         const uri = `${InventoryBackendAPI}/locations`;
+        const headers = getAuthHeader();
 
-        const response = await axios.post(uri, location);
+        const response = await axios.post(uri, location, {headers: headers});
 
         
         dispatch({
@@ -129,8 +146,9 @@ export const updateLocation = (id, location, callback) => async dispatch => {
     try{
 
         const uri = `${InventoryBackendAPI}/locations/${id}`;
+        const headers = getAuthHeader();
 
-        const response = await axios.put(uri, location);
+        const response = await axios.put(uri, location, {headers: headers});
 
         
         dispatch({
@@ -175,8 +193,10 @@ export const deleteLocation = (id, callback) => async dispatch => {
 
     try{
 
-        const uri = `${InventoryBackendAPI}/locations/${id}`
-        const response = await axios.delete(uri);
+        const uri = `${InventoryBackendAPI}/locations/${id}`;
+        const headers = getAuthHeader();
+
+        const response = await axios.delete(uri, {headers: headers});
 
 
         dispatch({
@@ -224,7 +244,9 @@ export const loadLocationTypes = () => async dispatch => {
 
     try {
         const uri = `${InventoryBackendAPI}/locations/types`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_LOCATION_TYPES,
@@ -243,8 +265,10 @@ export const createLocationType = (locationType, callback) => async dispatch => 
 
     try {
 
-        const uri = `${InventoryBackendAPI}/locations/types`
-        const response = await axios.post(uri, locationType);
+        const uri = `${InventoryBackendAPI}/locations/types`;
+        const headers = getAuthHeader();
+
+        const response = await axios.post(uri, locationType, {headers: headers});
 
 
         dispatch({
@@ -290,7 +314,9 @@ export const updateLocationType = (id, locationType, callback) => async dispatch
     try {
 
         const uri = `${InventoryBackendAPI}/locations/types/${id}`
-        const response = await axios.put(uri, locationType);
+        const headers = getAuthHeader();
+
+        const response = await axios.put(uri, locationType, {headers: headers});
 
 
         dispatch({
@@ -335,8 +361,10 @@ export const deleteLocationType = (id, callback) => async dispatch => {
 
     try {
 
-        const uri = `${InventoryBackendAPI}/locations/types/${id}`
-        const response = await axios.delete(uri);
+        const uri = `${InventoryBackendAPI}/locations/types/${id}`;
+        const headers = getAuthHeader();
+
+        const response = await axios.delete(uri, {headers: headers});
 
 
         dispatch({

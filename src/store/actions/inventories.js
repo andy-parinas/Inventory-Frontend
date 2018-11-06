@@ -13,7 +13,7 @@ import {LOAD_INVENTORIES,
     CREATE_INVENTORY} from './actionTypes';
 
 import {InventoryBackendAPI} from '../../AppSettings';
-import {convertFormToObject} from '../../helpers/helpers';
+import {convertFormToObject, getAuthHeader} from '../../helpers/helpers';
 
 export const loadInventories = (pageNumber: number = 1, sort, filter, callback) => async dispatch => {
 
@@ -24,6 +24,7 @@ export const loadInventories = (pageNumber: number = 1, sort, filter, callback) 
         })
         
         let uri = `${InventoryBackendAPI}/inventories?pageNumber=${pageNumber}`;
+        const headers = getAuthHeader();
         let filterParams = ''
 
 
@@ -60,7 +61,7 @@ export const loadInventories = (pageNumber: number = 1, sort, filter, callback) 
         }
 
 
-        const response = await axios.get(uri);
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_INVENTORIES,
@@ -100,7 +101,9 @@ export const loadInventory = (inventoryId: number) => async dispatch => {
         })
 
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
         dispatch({
             type: LOAD_INVENTORY,
             inventory: response.data
@@ -142,7 +145,9 @@ export const updateInventory = (inventoryId: number, inventoryForm, callback) =>
         convertFormToObject(inventoryForm, inventoryUpdate);
 
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}`
-        const response = await axios.put(uri, inventoryUpdate);
+        const headers = getAuthHeader();
+
+        const response = await axios.put(uri, inventoryUpdate, {headers: headers});
 
         dispatch({
             type: UPDATE_INVENTORY,
@@ -179,7 +184,10 @@ export const deleteInventory = (inventoryId, callback) => async dispatch => {
 
     try{
         const uri = `${InventoryBackendAPI}/inventories/${inventoryId}`;
-        await axios.delete(uri);
+        const headers = getAuthHeader();
+
+
+        await axios.delete(uri, {headers: headers});
 
 
         dispatch({
@@ -212,7 +220,9 @@ export const loadStatusOptions = () => async dispatch => {
     try{
 
         const uri = `${InventoryBackendAPI}/inventories/statuses`;
-        const response = await axios.get(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.get(uri, {headers: headers});
 
         dispatch({
             type: LOAD_STATUS_OPTIONS,
@@ -248,7 +258,9 @@ export const createInventory = (inventoryForm, callback) => async dispatch => {
         convertFormToObject(inventoryForm, newInventory);
 
         const uri = `${InventoryBackendAPI}/inventories`;
-        const response = await axios.post(uri, newInventory);
+        const headers = getAuthHeader();
+
+        const response = await axios.post(uri, newInventory, {headers: headers});
 
         dispatch({
             type: CREATE_INVENTORY,

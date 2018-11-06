@@ -91,3 +91,12 @@ export const convertFormToObject = (form, object) => {
 
 }
 
+export const getAuthHeader = () => {
+
+    const authBearer = `Bearer ${localStorage.getItem('token')}`;
+
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': authBearer
+    }
+}

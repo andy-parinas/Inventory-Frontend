@@ -53,7 +53,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "build-css": "node-sass --include-path scss src/scss/app.scss   build/static/css/app.css"
+    "build-css": "node-sass --include-path scss src/scss/app.scss   build/static/css/app.uncompress.css",
+    "compress-css": "node-sass build/static/css/app.uncompress.css build/static/css/app.css --output-style compressed"
   },
   "jest": {
     "collectCoverageFrom": [

@@ -4,7 +4,7 @@ import FormTextArea from '../../../../components/FormComponent/FormTextArea';
 import axios from 'axios';
 import {InventoryBackendAPI} from '../../../../AppSettings';
 import FormSelect from '../../../../components/FormComponent/FormSelect';
-import {validateInput} from '../../../../helpers/helpers';
+import {validateInput, getAuthHeader} from '../../../../helpers/helpers';
 
 class TransactionForm extends Component {
 
@@ -111,8 +111,9 @@ class TransactionForm extends Component {
     async loadTransactionOptions() {
         try {
             const uri = `${InventoryBackendAPI}/transactions/types`;
+            const headers = getAuthHeader();
 
-            const response = await axios.get(uri);
+            const response = await axios.get(uri, {headers: headers});
 
             this.setState({
                 ...this.state,

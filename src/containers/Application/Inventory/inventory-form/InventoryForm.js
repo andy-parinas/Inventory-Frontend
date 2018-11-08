@@ -4,7 +4,7 @@ import axios from 'axios';
 import FormInput from '../../../../components/FormComponent/FormInput';
 import FormDataList from '../../../../components/FormComponent/FormDataList';
 import {InventoryBackendAPI} from '../../../../AppSettings';
-import {validateInput} from '../../../../helpers/helpers';
+import {validateInput, getAuthHeader} from '../../../../helpers/helpers';
 
 
 class InventoryForm extends Component {
@@ -382,7 +382,8 @@ class InventoryForm extends Component {
     */
     async loadOptions(uriSegment, searchFor, params, name) {
         try {
-            const response = await axios.get(`${InventoryBackendAPI}/${uriSegment}?${searchFor}=${params}`)
+            const headers = getAuthHeader();
+            const response = await axios.get(`${InventoryBackendAPI}/${uriSegment}?${searchFor}=${params}`, {headers: headers})
             
             const options = response.data.map(row => {
                 return row[searchFor];

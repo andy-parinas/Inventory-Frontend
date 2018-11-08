@@ -6,7 +6,7 @@ import FormSelect from '../../../../components/FormComponent/FormSelect';
 import {InventoryBackendAPI} from '../../../../AppSettings';
 import FormTextArea from '../../../../components/FormComponent/FormTextArea';
 import FormControl from '../../../../components/FormComponent/FormControl';
-import {validateInput} from '../../../../helpers/helpers';
+import {validateInput, getAuthHeader} from '../../../../helpers/helpers';
 
 class ProductForm extends Component {
 
@@ -182,8 +182,9 @@ class ProductForm extends Component {
     async loadCategoryOptions() {
         try {
             const uri = `${InventoryBackendAPI}/products/categories`;
+            const headers = getAuthHeader();
 
-            const response = await axios.get(uri);
+            const response = await axios.get(uri, {headers: headers});
 
             this.setState({
                 ...this.state,

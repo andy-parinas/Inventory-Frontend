@@ -23,7 +23,7 @@ class TransactionNew extends Component {
 
             const inventoryId = this.props.match.params.id;
             this.props.onCreateTransaction(inventoryId, transactionForm, ()=>{
-                this.props.history.push(`/inventories/${inventoryId}`);
+                this.props.history.push(`/inventories/show/${inventoryId}`);
             })
             
 

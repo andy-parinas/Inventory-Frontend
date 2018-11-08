@@ -17,7 +17,6 @@ class ProductControl extends Component {
                     <div className='control-group control-group--right'>
                         <button onClick={this.props.onNewProduct}
                             className='app-btn' >New Product</button>
-                        <button className='app-btn'>Create Report</button>
                     </div>
                 </div>
             </div>  

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import ProductForm  from '../product-form/ProductForm';
 import {validateForm} from '../../../../helpers/helpers';
-import {createProduct, showMessages} from '../../../../store/actions';
+import {createProduct, showMessages, loadProductCategories} from '../../../../store/actions';
 
 
 class ProductNew extends Component {
@@ -32,7 +32,8 @@ class ProductNew extends Component {
         return(
             <div className='app-row' >
                 <div className='app-col app-col--80'>
-                <ProductForm                            
+                <ProductForm
+                            productCategories={this.props.productCategories}                            
                             action={this.state.action}
                             onSaved={this.productSavedHandler} 
                             onEditCancelled={this.productEditCancelledHandler}/>
@@ -44,16 +45,17 @@ class ProductNew extends Component {
 
 }
 
-// const mapStateToProps = state => {
-//     return {
-//         product: state.product.product
-//     }
-// }
+const mapStateToProps = state => {
+    return {
+        productCategories: state.product.categories
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
         onCreateProduct: (ProductForm, calllback) => dispatch(createProduct(ProductForm, calllback)),
-        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages))
+        onShowMessage: (messageType, messages) => dispatch(showMessages(messageType, messages)),
+        onLoadCategories: () => dispatch(loadProductCategories())
     }
 }
 

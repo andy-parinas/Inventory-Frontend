@@ -247,15 +247,15 @@ export const createInventory = (inventoryForm, callback) => async dispatch => {
 
         const newInventory = {
             product: '',
-            quantity: 0,
             sku: '',
-            status: '',
             thresholdWarning: 0,
             thresholdCritical: 0,
             location: ''
         }
-
+        
         convertFormToObject(inventoryForm, newInventory);
+
+        console.log(newInventory)
 
         const uri = `${InventoryBackendAPI}/inventories`;
         const headers = getAuthHeader();

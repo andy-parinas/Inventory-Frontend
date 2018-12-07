@@ -13,7 +13,7 @@ export const  validateInput = (validations, value, options?) => {
     }
 
     if(validations.numbersOnly) {
-        const reg = /^[1-9]\d*(\.\d+)?$/;
+        const reg = /^[0-9]\d*(\.\d+)?$/;
         if(reg.test(value) && isValid){
             isValid = true;
         }else {
@@ -53,7 +53,6 @@ export const validateForm = (formObject) => {
     for( const property in formObject){
         
         if(!formObject[property].isValid){
-            console.log('Invalid Property: ', property);
             return false;
         }
 

@@ -1,0 +1,21 @@
+version: "3.6"
+
+networks:
+  frontend:
+
+services:
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: inventory-frontend
+    volumes:
+      - inventory:/var/opt/mssql
+    ports:
+      - "80:80"
+    networks:
+      - frontend
+
+volumes:
+  inventory:

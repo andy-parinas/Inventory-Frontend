@@ -428,7 +428,9 @@ export const deleteProductCategory = (id, callback) => async dispatch => {
     try {
         
         const uri = `${InventoryBackendAPI}/products/categories/${id}`;
-        const response = await axios.delete(uri);
+        const headers = getAuthHeader();
+
+        const response = await axios.delete(uri, {headers: headers});
 
  
         dispatch({

@@ -29,9 +29,11 @@ class InventoryList extends Component {
     }
 
     componentDidMount() {
-        if(this.props.inventories.length === 0){
-            this.props.loadInventories(1, this.state.sort, null, null);
-        }
+        // if(this.props.inventories.length === 0){
+        //     this.props.loadInventories(1, this.state.sort, null, null);
+        // }
+
+        this.props.loadInventories(1, this.state.sort, null, null);
 
         if(this.props.sort){
             this.setState({

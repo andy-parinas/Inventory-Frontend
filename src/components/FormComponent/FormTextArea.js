@@ -10,8 +10,6 @@ const FormTextArea = props => {
         validationMessage = props.errorMessages.map((message, i) => {
             return <span key={i} className='app-form__validation app-form-row__col--2'> { message} </span>
         })
-
-        console.log(validationMessage);
     }
 
     return(

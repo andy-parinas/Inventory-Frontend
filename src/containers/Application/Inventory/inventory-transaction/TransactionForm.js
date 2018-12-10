@@ -224,7 +224,6 @@ class TransactionForm extends Component {
     )
 
     render() {
-        console.log('action: ', this.props.action);
         let disabled = true;
         if(this.props.action === 'new' || this.props.action === 'edit'){
             disabled = false;

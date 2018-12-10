@@ -7,8 +7,6 @@ import { LOGIN_USER, LOGOUT_USER, SHOW_MESSAGES } from './actionTypes';
 export const login = (userLogin, callback) => async dispatch => {
 
     try {
-
-        console.log(userLogin);
         
         const uri = `${InventoryBackendAPI}/auth/login`;
         const response = await axios.post(uri, userLogin);
@@ -16,8 +14,6 @@ export const login = (userLogin, callback) => async dispatch => {
 
         const user = response.data.user;
         const token = response.data.token;
-
-        console.log(response.data);
 
         localStorage.setItem('token', token);
         localStorage.setItem('userName', user.name);

@@ -255,8 +255,6 @@ export const createInventory = (inventoryForm, callback) => async dispatch => {
         
         convertFormToObject(inventoryForm, newInventory);
 
-        console.log(newInventory)
-
         const uri = `${InventoryBackendAPI}/inventories`;
         const headers = getAuthHeader();
 

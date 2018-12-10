@@ -84,7 +84,6 @@ class InventoryLocation extends Component {
 
     render(){
 
-        // console.log(this.props.locations)
         const columns = [
             {name: 'Location', value:'name', sortable: true, inputType: 'text'},
             {name: 'Address', value:'address', sortable: true, inputType: 'text'},

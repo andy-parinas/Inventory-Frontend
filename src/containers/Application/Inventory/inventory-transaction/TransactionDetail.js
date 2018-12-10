@@ -42,7 +42,6 @@ class TransactionDetail extends Component {
     }
 
     editButtonHandler = () => {
-        console.log('SetState called')
         this.setState({
             ...this.state,
             action: 'edit',
@@ -122,7 +121,6 @@ class TransactionDetail extends Component {
     }
 
     render(){
-        console.log(this.props);
         return this.props.transaction? this.renderContent() : <LoadingComponent />
     }
 

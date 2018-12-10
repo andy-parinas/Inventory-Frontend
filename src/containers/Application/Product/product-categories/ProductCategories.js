@@ -30,12 +30,9 @@ class ProductCategories extends Component {
 
     delteCategoryHandler = (id) => {
         this.props.onDeleteCategory(id);
-
-        console.log(id);
     }
 
     render(){
-        console.log(this.props.productCategories)
         return(
             <div className='app-container'>
                 <div className='app-row' >

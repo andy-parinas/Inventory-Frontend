@@ -18,7 +18,7 @@ import {InventoryBackendAPI} from '../../AppSettings';
 import {convertFormToObject, getAuthHeader} from '../../helpers/helpers';
 
 
-export const loadProducts = (pageNumber: number = 1, sort, callback) => async dispatch => {
+export const loadProducts = (pageNumber: number = 1, sort, productName, callback) => async dispatch => {
 
     try {
         dispatch({
@@ -34,6 +34,11 @@ export const loadProducts = (pageNumber: number = 1, sort, callback) => async di
             }else{
                 uri = uri + `&orderBy=${sort.column}&direction=DESC`
             }           
+        }
+
+        if(productName && productName.trim() !== ''){
+            const safeValue = encodeURIComponent(productName);
+            uri = uri + `&name=${safeValue}`
         }
 
         const response = await axios.get(uri, {headers: headers});

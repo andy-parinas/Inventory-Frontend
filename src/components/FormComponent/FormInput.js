@@ -8,11 +8,8 @@ const FormInput = (props) => {
 
     if(!props.isValid && props.touched){
         validationMessage = props.errorMessages.map((message, i) => {
-            console.log(message)
             return <span key={i} className='app-form__validation app-form-row__col--2'> { message} </span>
         })
-
-        console.log(validationMessage);
     }
 
     let inputButton = '';

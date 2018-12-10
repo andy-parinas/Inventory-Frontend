@@ -101,7 +101,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadProducts: (pageNumber, sort, callback) => dispatch(loadProducts(pageNumber, sort, callback))
+        onLoadProducts: (pageNumber, sort, productName, callback) => dispatch(loadProducts(pageNumber, sort, productName, callback))
     }
 }
 
